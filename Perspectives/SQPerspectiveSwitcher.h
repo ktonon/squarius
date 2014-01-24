@@ -49,7 +49,7 @@ public:
     virtual void renderModel();
     virtual void activate();
     virtual void deactivate();
-    virtual void updateOrientation(GLfloat const* modelView);
+    virtual void updateOrientation(const GLfloat* const modelView);
     /** @} */
 
 signals:

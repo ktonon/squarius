@@ -9,7 +9,7 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
-#include "SQTypes.h"
+#include <QtOpenGL>
 
 /**
  * @brief Copy the contents of src into dest
@@ -17,6 +17,6 @@
  * @param src A source matrix
  * @note Both matrices must already be allocated
  */
-void sqMatrixCopy(SQMatrix dest, SQMatrix src);
+void sqMatrixCopy(GLfloat* const dest, const GLfloat* const src);
 
 #endif // MATRIX_H

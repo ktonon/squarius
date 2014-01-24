@@ -9,9 +9,6 @@
 #ifndef SQTYPES_H
 #define SQTYPES_H
 
-#include <QtOpenGL>
-
-typedef GLfloat* SQMatrix;
-
+#define SQ_MATRIX_SIZE 16
 
 #endif // SQTYPES_H

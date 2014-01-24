@@ -33,9 +33,9 @@ public:
     /** @{ */
     SQPuzzle::SP puzzle() const { return _puzzle; }
 
-    SQMatrix modelViewMatrix() { return _modelViewMatrix; }
+    const GLfloat* modelViewMatrix() { return _modelViewMatrix; }
 
-    SQMatrix projectionMatrix() { return _perspective->projectionMatrix(); }
+    const GLfloat* projectionMatrix() { return _perspective->projectionMatrix(); }
 
     GLfloat distanceToModelView() const { return NEAR * 1.5f + _offset; }
 
@@ -88,7 +88,7 @@ private:
     bool _isCubeLocked;
     bool _isGesturing;
 
-    GLfloat _modelViewMatrix[16];
+    GLfloat _modelViewMatrix[SQ_MATRIX_SIZE];
     GLfloat _rotI;
     GLfloat _rotJ;
     GLfloat _rotK;

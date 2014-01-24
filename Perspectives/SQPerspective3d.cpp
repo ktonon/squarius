@@ -38,7 +38,7 @@ void SQPerspective3d::deactivate()
 
 }
 
-void SQPerspective3d::updateOrientation(GLfloat const* modelView)
+void SQPerspective3d::updateOrientation(const GLfloat* const modelView)
 {
 
 }

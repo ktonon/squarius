@@ -25,7 +25,7 @@ public:
      * @brief Return the engines projection matrix.
      * @return A 4x4 projection matrix
      */
-    SQMatrix projectionMatrix() { return _projectionMatrix; }
+    const GLfloat* projectionMatrix() const { return _projectionMatrix; }
 
     /**
      * @brief Creates a projection matrix using the new ratio.
@@ -52,10 +52,10 @@ public:
      * @brief Update orientation
      * @param modelView The model view matrix
      */
-    virtual void updateOrientation(GLfloat const* modelView) = 0;
+    virtual void updateOrientation(const GLfloat* const modelView) = 0;
 
 protected:
-    SQMatrix _projectionMatrix;
+    GLfloat _projectionMatrix[SQ_MATRIX_SIZE];
 
 };
 

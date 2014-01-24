@@ -71,7 +71,7 @@ void SQPerspectiveSwitcher::deactivate()
 
 }
 
-void SQPerspectiveSwitcher::updateOrientation(GLfloat const* modelView)
+void SQPerspectiveSwitcher::updateOrientation(const GLfloat* const modelView)
 {
 
 }

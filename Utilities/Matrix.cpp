@@ -7,9 +7,10 @@
  */
 
 #include "Matrix.h"
+#include "SQTypes.h"
 
-void sqMatrixCopy(SQMatrix dest, SQMatrix src)
+void sqMatrixCopy(GLfloat* const dest, const GLfloat* const src)
 {
-    for (int i = 0; i < 16; i++)
+    for (int i = 0; i < SQ_MATRIX_SIZE; i++)
         dest[i] = src[i];
 }
