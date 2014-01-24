@@ -18,6 +18,15 @@ public:
     explicit SQPerspective2d(QObject *parent = 0);
     virtual ~SQPerspective2d();
 
+    /** @name SQPerspective interface */
+    /** @{ */
+    virtual void setRatio(GLfloat ratio);
+    virtual void renderModel();
+    virtual void activate();
+    virtual void deactivate();
+    virtual void updateOrientation(GLfloat const* modelView);
+    /** @} */
+
 signals:
 
 public slots:

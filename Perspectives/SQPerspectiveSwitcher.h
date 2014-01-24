@@ -15,13 +15,31 @@ class SQPerspectiveSwitcher : public SQPerspective
 {
     Q_OBJECT
 public:
-    explicit SQPerspectiveSwitcher(QObject *parent = 0);
+    explicit SQPerspectiveSwitcher(SQPerspective* start, SQPerspective* end, QObject *parent = 0);
     virtual ~SQPerspectiveSwitcher();
+
+    /** @name Getters */
+    /** @{ */
+    SQPerspective* startPerspective() const { return _startPerspective; }
+    SQPerspective* endPerspective() const { return _endPerspective; }
+    /** @} */
+
+    /** @name SQPerspective interface */
+    /** @{ */
+    virtual void setRatio(GLfloat ratio);
+    virtual void renderModel();
+    virtual void activate();
+    virtual void deactivate();
+    virtual void updateOrientation(GLfloat const* modelView);
+    /** @} */
 
 signals:
 
 public slots:
 
+private:
+    SQPerspective* _startPerspective;
+    SQPerspective* _endPerspective;
 };
 
 #endif // SQPERSPECTIVESWITCHER_H

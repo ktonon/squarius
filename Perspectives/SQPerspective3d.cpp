@@ -17,3 +17,28 @@ SQPerspective3d::~SQPerspective3d()
 {
 
 }
+
+void SQPerspective3d::setRatio(GLfloat ratio)
+{
+
+}
+
+void SQPerspective3d::renderModel()
+{
+
+}
+
+void SQPerspective3d::activate()
+{
+
+}
+
+void SQPerspective3d::deactivate()
+{
+
+}
+
+void SQPerspective3d::updateOrientation(GLfloat const* modelView)
+{
+
+}

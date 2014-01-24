@@ -9,11 +9,11 @@
 #include "SQPerspective.h"
 
 SQPerspective::SQPerspective(QObject *parent) :
-    QObject(parent)
+    QObject(parent),
+    _projectionMatrix()
 {
 }
 
 SQPerspective::~SQPerspective()
 {
-
 }
