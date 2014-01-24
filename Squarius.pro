@@ -14,9 +14,15 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         MainWindow.cpp \
-    GLWidget.cpp
+    SQEngine.cpp \
+    Perspectives/SQPerspective.cpp \
+    Perspectives/SQPerspective2d.cpp \
+    Perspectives/SQPerspective3d.cpp
 
 HEADERS  += MainWindow.h \
-    GLWidget.h
+    SQEngine.h \
+    Perspectives/SQPerspective.h \
+    Perspectives/SQPerspective2d.h \
+    Perspectives/SQPerspective3d.h
 
 FORMS    += MainWindow.ui

@@ -6,24 +6,29 @@
  * All Rights Reserved
  */
 
-#include "GLWidget.h"
+#include "SQEngine.h"
 
-GLWidget::GLWidget(QWidget *parent) :
+SQEngine::SQEngine(QWidget *parent) :
     QGLWidget(parent)
 {
 }
 
-void GLWidget::initializeGL()
+SQEngine::~SQEngine()
+{
+
+}
+
+void SQEngine::initializeGL()
 {
     glClearColor(0, 0, 1, 1);
 }
 
-void GLWidget::paintGL()
+void SQEngine::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void GLWidget::resizeGL(int w, int h)
+void SQEngine::resizeGL(int w, int h)
 {
 
 }

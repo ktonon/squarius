@@ -11,11 +11,12 @@
 
 #include <QGLWidget>
 
-class GLWidget : public QGLWidget
+class SQEngine : public QGLWidget
 {
     Q_OBJECT
 public:
-    explicit GLWidget(QWidget *parent = 0);
+    explicit SQEngine(QWidget *parent = 0);
+    virtual ~SQEngine();
 
     virtual void initializeGL();
     virtual void paintGL();
