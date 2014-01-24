@@ -17,12 +17,15 @@ SOURCES += main.cpp\
     SQEngine.cpp \
     Perspectives/SQPerspective.cpp \
     Perspectives/SQPerspective2d.cpp \
-    Perspectives/SQPerspective3d.cpp
+    Perspectives/SQPerspective3d.cpp \
+    Perspectives/SQPerspectiveSwitcher.cpp
 
 HEADERS  += MainWindow.h \
     SQEngine.h \
     Perspectives/SQPerspective.h \
     Perspectives/SQPerspective2d.h \
-    Perspectives/SQPerspective3d.h
+    Perspectives/SQPerspective3d.h \
+    Perspectives/SQPerspectiveSwitcher.h \
+    SQPerspectives.h
 
 FORMS    += MainWindow.ui

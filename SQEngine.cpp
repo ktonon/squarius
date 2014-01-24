@@ -9,7 +9,11 @@
 #include "SQEngine.h"
 
 SQEngine::SQEngine(QWidget *parent) :
-    QGLWidget(parent)
+    QGLWidget(parent),
+    _perspective(NULL),
+    _perspective2d(NULL),
+    _perspective3d(NULL),
+    _perspectiveSwitcher(NULL)
 {
 }
 

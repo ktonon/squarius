@@ -10,6 +10,7 @@
 #define GLWIDGET_H
 
 #include <QGLWidget>
+#include "SQPerspectives.h"
 
 class SQEngine : public QGLWidget
 {
@@ -25,6 +26,12 @@ public:
 signals:
 
 public slots:
+
+private:
+    SQPerspective* _perspective;
+    SQPerspective2d* _perspective2d;
+    SQPerspective3d* _perspective3d;
+    SQPerspectiveSwitcher* _perspectiveSwitcher;
 
 };
 
