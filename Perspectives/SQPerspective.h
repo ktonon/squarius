@@ -11,9 +11,8 @@
 
 #include <QtCore>
 #include <QtOpenGL>
-#include <QSharedPointer>
+#include "SQTypes.h"
 
-typedef GLfloat* SQProjectionMatrix;
 
 class SQPerspective : public QObject
 {
@@ -26,7 +25,7 @@ public:
      * @brief Return the engines projection matrix.
      * @return A 4x4 projection matrix
      */
-    SQProjectionMatrix projectionMatrix() { return _projectionMatrix; }
+    SQMatrix projectionMatrix() { return _projectionMatrix; }
 
     /**
      * @brief Creates a projection matrix using the new ratio.
@@ -55,12 +54,8 @@ public:
      */
     virtual void updateOrientation(GLfloat const* modelView) = 0;
 
-signals:
-
-public slots:
-
-private:
-    SQProjectionMatrix _projectionMatrix;
+protected:
+    SQMatrix _projectionMatrix;
 
 };
 

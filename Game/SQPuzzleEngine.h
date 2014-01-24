@@ -1,0 +1,100 @@
+/**
+ * @file
+ * @author Kevin Tonon <kevin@betweenconcepts.com>
+ * @section LICENSE
+ * 2013 Kevin Tonon
+ * All Rights Reserved
+ */
+
+#ifndef SQPUZZLEENGINE_H
+#define SQPUZZLEENGINE_H
+
+#include "SQPerspectives.h"
+#include "SQPuzzle.h"
+#include "SQTypes.h"
+#include <QObject>
+
+
+class SQPuzzleEngine : public QObject
+{
+    Q_OBJECT
+public:
+    explicit SQPuzzleEngine(SQPuzzle::SP puzzle, QObject *parent = 0);
+    virtual ~SQPuzzleEngine();
+
+    /** @name Predicates */
+    /** @{ */
+    bool isPerspectiveSwitching() const { return _perspective != NULL && _perspective == _perspectiveSwitcher; }
+    bool isPerspective2d() const { return _perspective == _perspective2d; }
+    bool isPerspective3d() const { return _perspective == _perspective3d; }
+    /** @} */
+
+    /** @name Getters */
+    /** @{ */
+    SQPuzzle::SP puzzle() const { return _puzzle; }
+
+    SQMatrix modelViewMatrix() { return _modelViewMatrix; }
+
+    SQMatrix projectionMatrix() { return _perspective->projectionMatrix(); }
+
+    GLfloat distanceToModelView() const { return NEAR * 1.5f + _offset; }
+
+    SQPerspective* otherPerspective() const
+    {
+        Q_ASSERT(_perspective != NULL);
+        return isPerspectiveSwitching()
+                ? _perspectiveSwitcher->startPerspective()
+                : (isPerspective2d()
+                   ? dynamic_cast<SQPerspective*>(_perspective3d)
+                   : dynamic_cast<SQPerspective*>(_perspective2d) );
+    }
+    /** @} */
+
+public slots:
+
+    /** @name Commands */
+    /** @{ */
+    void updateModelView()
+    {
+        applyGesturesToModelView();
+        if (shouldPullViewToAxis()) pullViewToAxis();
+    }
+
+    void perspectiveSwitchBegin();
+
+    void perspectiveSwitchEnd();
+
+    void renderModel();
+    /** @} */
+
+private:
+    void applyGesturesToModelView();
+    void pullViewToAxis();
+    bool shouldPullViewToAxis() const
+    {
+        return (_isCubeLocked || isPerspectiveSwitching() || isPerspective2d())
+                && !_isGesturing;
+    }
+
+    SQPuzzle::SP _puzzle;
+
+    static const GLfloat NEAR;
+
+    SQPerspective* _perspective;
+    SQPerspective2d* _perspective2d;
+    SQPerspective3d* _perspective3d;
+    SQPerspectiveSwitcher* _perspectiveSwitcher;
+
+    bool _isCubeLocked;
+    bool _isGesturing;
+
+    GLfloat _modelViewMatrix[16];
+    GLfloat _rotI;
+    GLfloat _rotJ;
+    GLfloat _rotK;
+    bool _isFirstRender;
+
+    GLfloat _offset;
+};
+
+#endif // SQPUZZLEENGINE_H
