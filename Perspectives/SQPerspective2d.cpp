@@ -7,6 +7,7 @@
  */
 
 #include "SQPerspective2d.h"
+#include "Utilities/Matrix.h"
 
 SQPerspective2d::SQPerspective2d(int maxDimension, QObject *parent) :
     SQPerspective(maxDimension, parent)
@@ -34,7 +35,7 @@ void SQPerspective2d::setRatio(GLfloat ratio)
 
 void SQPerspective2d::activate()
 {
-    qDebug() << "2d activated";
+    qDebug() << QString("2d activated\n%1").arg(sqMatrixToString(_projectionMatrix));
     SQPerspective::activate();
 }
 

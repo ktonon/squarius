@@ -16,6 +16,7 @@ SQPuzzleEngine::SQPuzzleEngine(SQPuzzle::SP puzzle, QObject *parent) :
     _perspective2d(NULL),
     _perspective3d(NULL),
     _perspectiveSwitcher(NULL),
+    _isActive(false),
     _isCubeLocked(true),
     _isGesturing(false),
     _modelViewMatrix(),
@@ -23,13 +24,12 @@ SQPuzzleEngine::SQPuzzleEngine(SQPuzzle::SP puzzle, QObject *parent) :
     _rotJ(0.0f),
     _rotK(0.0f),
     _isFirstRender(true),
-    _offset(0.0f)
+    _offset(puzzle->maxDimension() / 2.0f)
 {
     int n = puzzle->maxDimension();
     _perspective2d = new SQPerspective2d(n, this);
     _perspective3d = new SQPerspective3d(n, this);
     _perspective = _perspective2d;
-    _perspective->activate();
 }
 
 SQPuzzleEngine::~SQPuzzleEngine()

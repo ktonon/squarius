@@ -7,6 +7,7 @@
  */
 
 #include "SQPuzzle.h"
+#include "Utilities/Primitives.h"
 
 SQPuzzle::SQPuzzle(SQPuzzle::World world, SQPuzzle::Level level) :
     QObject(0),
@@ -32,7 +33,19 @@ SQPuzzle::~SQPuzzle()
 
 void SQPuzzle::renderCells()
 {
+    GLfloat u = _shape[0]/2.0f,
+            v = _shape[1]/2.0f,
+            w = _shape[2]/2.0f;
 
+    foreach(SQBlock::SP block, _blocks)
+    {
+        glPushMatrix();
+        glTranslatef(block->position().x - u,
+                     block->position().y - v,
+                     block->position().z - w);
+        drawCube();
+        glPopMatrix();
+    }
 }
 
 void SQPuzzle::updateOrientation(const GLfloat * const modelView)

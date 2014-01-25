@@ -19,4 +19,6 @@
  */
 void sqMatrixCopy(GLfloat* const dest, const GLfloat* const src);
 
+QString sqMatrixToString(const GLfloat* const m);
+
 #endif // MATRIX_H

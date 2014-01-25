@@ -40,7 +40,7 @@ void SQEngine::paintGL()
     glTranslatef(0, 0, -_puzzleEngine->distanceToModelView());
     glMultMatrixf(_puzzleEngine->modelViewMatrix());
 
-    glClearColor(0, 0, 1, 1);
+    glClearColor(0.1f, 0.15f, 0.2f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glPushMatrix();
@@ -50,7 +50,10 @@ void SQEngine::paintGL()
 
 void SQEngine::resizeGL(int w, int h)
 {
-
+    GLfloat ratio = (GLfloat) w / h;
+    _puzzleEngine->setRatio(ratio);
+    if (!_puzzleEngine->isActive())
+        _puzzleEngine->activate();
 }
 
 void SQEngine::togglePerspective()

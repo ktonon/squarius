@@ -24,6 +24,7 @@ public:
 
     /** @name Predicates */
     /** @{ */
+    bool isActive() const { return _isActive; }
     bool isPerspectiveSwitching() const { return _perspective != NULL && _perspective == _perspectiveSwitcher; }
     bool isPerspective2d() const { return _perspective == _perspective2d; }
     bool isPerspective3d() const { return _perspective == _perspective3d; }
@@ -54,6 +55,23 @@ public slots:
 
     /** @name Commands */
     /** @{ */
+    void activate()
+    {
+        if (!_isActive)
+        {
+            _isActive = true;
+            _perspective->activate();
+        }
+    }
+
+    void setRatio(GLfloat ratio)
+    {
+        _perspective2d->setRatio(ratio);
+        _perspective3d->setRatio(ratio);
+        if (_perspectiveSwitcher != NULL)
+            _perspectiveSwitcher->setRatio(ratio);
+    }
+
     void updateModelView()
     {
         applyGesturesToModelView();
@@ -83,6 +101,7 @@ private:
     SQPerspective3d* _perspective3d;
     SQPerspectiveSwitcher* _perspectiveSwitcher;
 
+    bool _isActive;
     bool _isCubeLocked;
     bool _isGesturing;
 
