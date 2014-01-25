@@ -12,6 +12,7 @@ SQPuzzle::SQPuzzle(SQPuzzle::World world, SQPuzzle::Level level) :
     QObject(0),
     _world(world),
     _level(level),
+    _blocks(),
     _shape(),
     _i(), _j(), _k(),
     _origin(),
@@ -21,6 +22,8 @@ SQPuzzle::SQPuzzle(SQPuzzle::World world, SQPuzzle::Level level) :
     _shape[0] = 5;
     _shape[1] = 5;
     _shape[2] = 5;
+
+    _blocks << SQBlock::create(0,1,0);
 }
 
 SQPuzzle::~SQPuzzle()

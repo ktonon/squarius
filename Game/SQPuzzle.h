@@ -11,6 +11,7 @@
 
 #include <QtCore>
 #include <QtOpenGL>
+#include "SQBlock.h"
 #include "SQMath.h"
 
 class SQPuzzle : public QObject
@@ -58,6 +59,8 @@ private:
 
     World _world;
     Level _level;
+
+    SQBlock::List _blocks;
 
     int _shape[3];
     SQVectorI _i, _j, _k;
