@@ -19,7 +19,7 @@ class SQPerspectiveSwitcher : public SQPerspective
 {
     Q_OBJECT
 public:
-    static const int DEFAULT_DURATION = 500;
+    static const int DEFAULT_DURATION;
 
     /**
      * @brief Create a new perspective switching animation
@@ -45,7 +45,9 @@ public:
 
     /** @name SQPerspective interface */
     /** @{ */
+    virtual const GLfloat* projectionMatrix();
     virtual void setRatio(GLfloat ratio);
+public slots:
     virtual void activate();
     /** @} */
 
@@ -54,6 +56,7 @@ private:
     SQPerspective* _endPerspective;
     QTimer _timer;
     QDateTime _startedAt;
+    GLfloat _ratio;
 };
 
 #endif // SQPERSPECTIVESWITCHER_H

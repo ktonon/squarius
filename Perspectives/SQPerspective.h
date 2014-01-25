@@ -28,7 +28,7 @@ public:
      * @brief Return the engines projection matrix.
      * @return A 4x4 projection matrix
      */
-    const GLfloat* projectionMatrix() const { return _projectionMatrix; }
+    virtual const GLfloat* projectionMatrix() { return _projectionMatrix; }
 
     /**
      * @brief Maximum number of cells being rendered by this perspective

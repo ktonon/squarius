@@ -24,7 +24,21 @@ SQPuzzle::SQPuzzle(SQPuzzle::World world, SQPuzzle::Level level) :
     _shape[1] = 5;
     _shape[2] = 5;
 
-    _blocks << SQBlock::create(0,1,0);
+    _blocks << SQBlock::create(0, 0, 0)
+            << SQBlock::create(0, 1, 0)
+            << SQBlock::create(0, 2, 0)
+            << SQBlock::create(0, 3, 0)
+            << SQBlock::create(0, 4, 0)
+            << SQBlock::create(0, 4, 0)
+            << SQBlock::create(1, 4, 0)
+            << SQBlock::create(2, 4, 0)
+            << SQBlock::create(3, 4, 0)
+            << SQBlock::create(4, 4, 0)
+            << SQBlock::create(4, 4, 1)
+            << SQBlock::create(4, 4, 2)
+            << SQBlock::create(4, 4, 3)
+            << SQBlock::create(4, 4, 4)
+            ;
 }
 
 SQPuzzle::~SQPuzzle()

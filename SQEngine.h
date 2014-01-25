@@ -18,6 +18,8 @@ class SQEngine : public QGLWidget
 {
     Q_OBJECT
 public:
+    static const int FRAMES_PER_SECOND;
+
     explicit SQEngine(QWidget *parent = 0);
     virtual ~SQEngine();
 

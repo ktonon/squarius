@@ -10,6 +10,8 @@
 #include "Game/SQPuzzleEngine.h"
 
 
+const int SQEngine::FRAMES_PER_SECOND = 30;
+
 SQEngine::SQEngine(QWidget *parent) :
     QGLWidget(parent),
     _renderTimer(),
@@ -18,12 +20,11 @@ SQEngine::SQEngine(QWidget *parent) :
     _width(-1)
 {
     _renderTimer.setSingleShot(false);
-    _renderTimer.setInterval(50);
+    _renderTimer.setInterval(1000.0f / FRAMES_PER_SECOND);
     connect(&_renderTimer, SIGNAL(timeout()), SLOT(tick()));
 
     // TODO: replace this with real level loader
     _puzzleEngine = new SQPuzzleEngine(SQPuzzle::load(0, 0), this);
-
 }
 
 SQEngine::~SQEngine()
