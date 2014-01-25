@@ -9,8 +9,8 @@
 #include "SQPerspectiveSwitcher.h"
 #include "Utilities/Matrix.h"
 
-SQPerspectiveSwitcher::SQPerspectiveSwitcher(SQPerspective *start, SQPerspective *end, int duration, QObject *parent) :
-    SQPerspective(parent),
+SQPerspectiveSwitcher::SQPerspectiveSwitcher(SQPuzzle::SP puzzle, SQPerspective *start, SQPerspective *end, int duration, QObject *parent) :
+    SQPerspective(puzzle, parent),
     _startPerspective(start),
     _endPerspective(end),
     _timer(),
@@ -52,11 +52,6 @@ void SQPerspectiveSwitcher::reverse()
 }
 
 void SQPerspectiveSwitcher::setRatio(GLfloat ratio)
-{
-
-}
-
-void SQPerspectiveSwitcher::renderModel()
 {
 
 }

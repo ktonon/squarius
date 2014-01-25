@@ -8,8 +8,9 @@
 
 #include "SQPerspective.h"
 
-SQPerspective::SQPerspective(QObject *parent) :
+SQPerspective::SQPerspective(SQPuzzle::SP puzzle, QObject *parent) :
     QObject(parent),
+    _puzzle(puzzle),
     _projectionMatrix()
 {
 }

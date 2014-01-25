@@ -37,7 +37,7 @@ public:
 
     const GLfloat* projectionMatrix() { return _perspective->projectionMatrix(); }
 
-    GLfloat distanceToModelView() const { return NEAR * 1.5f + _offset; }
+    GLfloat distanceToModelView() const { return SQ_NEAR * 1.5f + _offset; }
 
     SQPerspective* otherPerspective() const
     {
@@ -77,8 +77,6 @@ private:
     }
 
     SQPuzzle::SP _puzzle;
-
-    static const GLfloat NEAR;
 
     SQPerspective* _perspective;
     SQPerspective2d* _perspective2d;

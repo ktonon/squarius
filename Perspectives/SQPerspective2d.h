@@ -15,21 +15,19 @@ class SQPerspective2d : public SQPerspective
 {
     Q_OBJECT
 public:
-    explicit SQPerspective2d(QObject *parent = 0);
+    explicit SQPerspective2d(SQPuzzle::SP puzzle, QObject *parent = 0);
     virtual ~SQPerspective2d();
 
     /** @name SQPerspective interface */
     /** @{ */
     virtual void setRatio(GLfloat ratio);
-    virtual void renderModel();
     virtual void activate();
     virtual void deactivate();
     virtual void updateOrientation(const GLfloat* const modelView);
     /** @} */
 
-signals:
-
-public slots:
+private:
+    GLfloat _cellSize;
 
 };
 

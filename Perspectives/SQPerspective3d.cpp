@@ -8,8 +8,8 @@
 
 #include "SQPerspective3d.h"
 
-SQPerspective3d::SQPerspective3d(QObject *parent) :
-    SQPerspective(parent)
+SQPerspective3d::SQPerspective3d(SQPuzzle::SP puzzle, QObject *parent) :
+    SQPerspective(puzzle, parent)
 {
 }
 
@@ -20,12 +20,14 @@ SQPerspective3d::~SQPerspective3d()
 
 void SQPerspective3d::setRatio(GLfloat ratio)
 {
-
-}
-
-void SQPerspective3d::renderModel()
-{
-
+    float h = _puzzle->maxDimension() / 2.0f;
+    float w = h * ratio;
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    glFrustum(-w, w, -h, h, SQ_NEAR, SQ_NEAR * 2.0f + h * 2.0f);
+    glGetFloatv(GL_PROJECTION_MATRIX, _projectionMatrix);
+    glPopMatrix();
 }
 
 void SQPerspective3d::activate()

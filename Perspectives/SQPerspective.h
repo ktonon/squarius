@@ -11,6 +11,7 @@
 
 #include <QtCore>
 #include <QtOpenGL>
+#include "Game/SQPuzzle.h"
 #include "SQTypes.h"
 
 
@@ -18,7 +19,7 @@ class SQPerspective : public QObject
 {
     Q_OBJECT
 public:
-    explicit SQPerspective(QObject *parent = 0);
+    explicit SQPerspective(SQPuzzle::SP puzzle, QObject *parent = 0);
     virtual ~SQPerspective();
 
     /**
@@ -28,15 +29,15 @@ public:
     const GLfloat* projectionMatrix() const { return _projectionMatrix; }
 
     /**
+     * @brief Render the model view.
+     */
+    void renderModel() { _puzzle->renderCells(); }
+
+    /**
      * @brief Creates a projection matrix using the new ratio.
      * @param ratio
      */
     virtual void setRatio(GLfloat ratio) = 0;
-
-    /**
-     * @brief Render the model view.
-     */
-    virtual void renderModel() = 0;
 
     /**
      * @brief Make the engine active.
@@ -55,6 +56,7 @@ public:
     virtual void updateOrientation(const GLfloat* const modelView) = 0;
 
 protected:
+    SQPuzzle::SP _puzzle;
     GLfloat _projectionMatrix[SQ_MATRIX_SIZE];
 
 };

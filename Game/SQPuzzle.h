@@ -10,6 +10,7 @@
 #define SQPUZZLE_H
 
 #include <QtCore>
+#include <math.h>
 
 class SQPuzzle : public QObject
 {
@@ -32,6 +33,13 @@ public:
     /** @{ */
     World world() const { return _world; }
     Level level() const { return _level; }
+
+    int maxDimension() const { return fmaxf(fmaxf(_shape[0], _shape[1]), _shape[2]); }
+    /** @} */
+
+    /** @name Commands */
+    /** @{ */
+    void renderCells();
     /** @} */
 
 signals:
@@ -43,6 +51,8 @@ private:
 
     World _world;
     Level _level;
+
+    int _shape[3];
 };
 
 #endif // SQPUZZLE_H

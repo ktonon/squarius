@@ -19,3 +19,8 @@ SQPuzzle::SQPuzzle(SQPuzzle::World world, SQPuzzle::Level level) :
 SQPuzzle::~SQPuzzle()
 {
 }
+
+void SQPuzzle::renderCells()
+{
+
+}

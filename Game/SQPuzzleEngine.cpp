@@ -9,8 +9,6 @@
 #include "SQPuzzleEngine.h"
 #include "Utilities/Memory.h"
 
-const GLfloat SQPuzzleEngine::NEAR = 10.0f;
-
 SQPuzzleEngine::SQPuzzleEngine(SQPuzzle::SP puzzle, QObject *parent) :
     QObject(parent),
     _puzzle(puzzle),
@@ -27,8 +25,8 @@ SQPuzzleEngine::SQPuzzleEngine(SQPuzzle::SP puzzle, QObject *parent) :
     _isFirstRender(true),
     _offset(0.0f)
 {
-    _perspective2d = new SQPerspective2d(this);
-    _perspective3d = new SQPerspective3d(this);
+    _perspective2d = new SQPerspective2d(puzzle, this);
+    _perspective3d = new SQPerspective3d(puzzle, this);
     _perspective = _perspective2d;
 }
 
@@ -48,6 +46,7 @@ void SQPuzzleEngine::perspectiveSwitchBegin()
     else
     {
         _perspectiveSwitcher = new SQPerspectiveSwitcher(
+                    _puzzle,
                     _perspective,
                     otherPerspective(),
                     SQPerspectiveSwitcher::DEFAULT_DURATION,
