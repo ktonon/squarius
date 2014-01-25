@@ -34,6 +34,9 @@ HEADERS  += MainWindow.h \
     Game/SQPuzzleEngine.h \
     SQTypes.h \
     Utilities/Memory.h \
-    Utilities/Matrix.h
+    Utilities/Matrix.h \
+    Math/SQPoint.h \
+    Math/SQVector.h \
+    SQMath.h
 
 FORMS    += MainWindow.ui
