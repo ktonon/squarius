@@ -9,6 +9,7 @@
 #ifndef GLWIDGET_H
 #define GLWIDGET_H
 
+#include <QtCore>
 #include <QGLWidget>
 class SQPuzzleEngine;
 
@@ -26,9 +27,15 @@ public:
 
 public slots:
     void togglePerspective();
+    void tick();
 
 private:
+    bool shouldStartRendering() const { return _width != -1 && !_renderTimer.isActive(); }
+
+    QTimer _renderTimer;
     SQPuzzleEngine* _puzzleEngine;
+    GLint _height;
+    GLint _width;
 };
 
 #endif // GLWIDGET_H

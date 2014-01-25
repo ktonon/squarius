@@ -11,14 +11,19 @@
 
 
 SQEngine::SQEngine(QWidget *parent) :
-    QGLWidget(parent)
+    QGLWidget(parent),
+    _renderTimer(),
+    _puzzleEngine(NULL),
+    _height(-1),
+    _width(-1)
 {
+    _renderTimer.setSingleShot(false);
+    _renderTimer.setInterval(50);
+    connect(&_renderTimer, SIGNAL(timeout()), SLOT(tick()));
+
     // TODO: replace this with real level loader
     _puzzleEngine = new SQPuzzleEngine(SQPuzzle::load(0, 0), this);
-    QTimer* timer = new QTimer(this);
-    timer->setSingleShot(false);
-    timer->setInterval(50);
-    connect(timer, SIGNAL(timeout()), _puzzleEngine, SLOT(updateModelView()));
+
 }
 
 SQEngine::~SQEngine()
@@ -27,11 +32,23 @@ SQEngine::~SQEngine()
 
 void SQEngine::initializeGL()
 {
-    glClearColor(0, 0, 1, 1);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
+
+    glClearColor(0.1f, 0.15f, 0.2f, 1.0f);
+}
+
+void SQEngine::tick()
+{
+    _puzzleEngine->updateModelView();
+    update();
 }
 
 void SQEngine::paintGL()
 {
+
     glMatrixMode(GL_PROJECTION);
     glLoadMatrixf(_puzzleEngine->projectionMatrix());
 
@@ -40,7 +57,6 @@ void SQEngine::paintGL()
     glTranslatef(0, 0, -_puzzleEngine->distanceToModelView());
     glMultMatrixf(_puzzleEngine->modelViewMatrix());
 
-    glClearColor(0.1f, 0.15f, 0.2f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glPushMatrix();
@@ -50,10 +66,15 @@ void SQEngine::paintGL()
 
 void SQEngine::resizeGL(int w, int h)
 {
-    GLfloat ratio = (GLfloat) w / h;
-    _puzzleEngine->setRatio(ratio);
-    if (!_puzzleEngine->isActive())
+    _width = w;
+    _height = h;
+    glViewport(0, 0, _width, _height);
+    _puzzleEngine->setRatio((GLfloat) w / h);
+    if (shouldStartRendering())
+    {
         _puzzleEngine->activate();
+        _renderTimer.start();
+    }
 }
 
 void SQEngine::togglePerspective()
