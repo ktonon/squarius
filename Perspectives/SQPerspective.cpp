@@ -18,3 +18,13 @@ SQPerspective::SQPerspective(int maxDimension, QObject *parent) :
 SQPerspective::~SQPerspective()
 {
 }
+
+void SQPerspective::activate()
+{
+    emit activated();
+}
+
+void SQPerspective::deactivate()
+{
+    emit deactivated();
+}

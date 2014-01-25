@@ -32,10 +32,12 @@ void SQPerspective3d::setRatio(GLfloat ratio)
 
 void SQPerspective3d::activate()
 {
-
+    qDebug() << "3d activated";
+    SQPerspective::activate();
 }
 
 void SQPerspective3d::deactivate()
 {
-
+    qDebug() << "3d deactivated";
+    SQPerspective::deactivate();
 }

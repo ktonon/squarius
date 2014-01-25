@@ -47,32 +47,13 @@ public:
     /** @{ */
     virtual void setRatio(GLfloat ratio);
     virtual void activate();
-    virtual void deactivate();
     /** @} */
-
-signals:
-    /**
-     * @brief The animation is complete
-     */
-    void done();
-
-public slots:
-    /**
-     * @brief Start the animation
-     */
-    void start();
-
-    /**
-     * @brief Reverse the direction of the animation
-     */
-    void reverse();
 
 private:
     SQPerspective* _startPerspective;
     SQPerspective* _endPerspective;
     QTimer _timer;
     QDateTime _startedAt;
-    int _duration;
 };
 
 #endif // SQPERSPECTIVESWITCHER_H

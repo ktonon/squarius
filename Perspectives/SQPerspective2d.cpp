@@ -34,10 +34,12 @@ void SQPerspective2d::setRatio(GLfloat ratio)
 
 void SQPerspective2d::activate()
 {
-
+    qDebug() << "2d activated";
+    SQPerspective::activate();
 }
 
 void SQPerspective2d::deactivate()
 {
-
+    qDebug() << "2d deactivated";
+    SQPerspective::deactivate();
 }

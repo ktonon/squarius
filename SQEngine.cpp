@@ -52,3 +52,8 @@ void SQEngine::resizeGL(int w, int h)
 {
 
 }
+
+void SQEngine::togglePerspective()
+{
+    _puzzleEngine->perspectiveSwitchBegin();
+}

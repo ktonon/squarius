@@ -14,41 +14,18 @@ SQPerspectiveSwitcher::SQPerspectiveSwitcher(SQPerspective *start, SQPerspective
     _startPerspective(start),
     _endPerspective(end),
     _timer(),
-    _startedAt(),
-    _duration(duration)
+    _startedAt()
 {
     _timer.setSingleShot(true);
     _timer.setInterval(duration);
-    connect(&_timer, SIGNAL(timeout()), this, SIGNAL(done()));
+    connect(&_timer, SIGNAL(timeout()), this, SLOT(deactivate()));
+    connect(this, SIGNAL(activated()), start, SLOT(deactivate()));
+    connect(this, SIGNAL(deactivated()), end, SLOT(activate()));
 }
 
 SQPerspectiveSwitcher::~SQPerspectiveSwitcher()
 {
 
-}
-
-void SQPerspectiveSwitcher::start()
-{
-    Q_ASSERT(_startedAt.isNull());
-    sqMatrixCopy(_projectionMatrix, _startPerspective->projectionMatrix());
-    _startedAt = QDateTime::currentDateTime();
-    _timer.start();
-}
-
-void SQPerspectiveSwitcher::reverse()
-{
-    SQPerspective* temp = _endPerspective;
-    _endPerspective = _startPerspective;
-    _startPerspective = temp;
-
-    if (_timer.isActive())
-    {
-        _timer.stop();
-        int e = elapsedTime();
-        _timer.setInterval(e);
-        _startedAt = QDateTime::currentDateTime().addMSecs(e - _duration);
-        _timer.start();
-    }
 }
 
 void SQPerspectiveSwitcher::setRatio(GLfloat ratio)
@@ -58,10 +35,9 @@ void SQPerspectiveSwitcher::setRatio(GLfloat ratio)
 
 void SQPerspectiveSwitcher::activate()
 {
-
-}
-
-void SQPerspectiveSwitcher::deactivate()
-{
-
+    Q_ASSERT(_startedAt.isNull());
+    sqMatrixCopy(_projectionMatrix, _startPerspective->projectionMatrix());
+    _startedAt = QDateTime::currentDateTime();
+    _timer.start();
+    SQPerspective::activate();
 }

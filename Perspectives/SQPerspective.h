@@ -43,15 +43,20 @@ public:
      */
     virtual void setRatio(GLfloat ratio) = 0;
 
+public slots:
     /**
      * @brief Make the engine active.
      */
-    virtual void activate() = 0;
+    virtual void activate();
 
     /**
      * @brief Make the engine inactive.
      */
-    virtual void deactivate() = 0;
+    virtual void deactivate();
+
+signals:
+    void activated();
+    void deactivated();
 
 protected:
     GLfloat _projectionMatrix[SQ_MATRIX_SIZE];

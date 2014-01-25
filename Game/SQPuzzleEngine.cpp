@@ -29,6 +29,7 @@ SQPuzzleEngine::SQPuzzleEngine(SQPuzzle::SP puzzle, QObject *parent) :
     _perspective2d = new SQPerspective2d(n, this);
     _perspective3d = new SQPerspective3d(n, this);
     _perspective = _perspective2d;
+    _perspective->activate();
 }
 
 SQPuzzleEngine::~SQPuzzleEngine()
@@ -42,18 +43,16 @@ void SQPuzzleEngine::renderModel()
 
 void SQPuzzleEngine::perspectiveSwitchBegin()
 {
-    if (isPerspectiveSwitching())
-        _perspectiveSwitcher->reverse();
-    else
+    if (!isPerspectiveSwitching())
     {
         _perspectiveSwitcher = new SQPerspectiveSwitcher(
                     _perspective,
                     otherPerspective(),
                     SQPerspectiveSwitcher::DEFAULT_DURATION,
                     this);
-        connect(_perspectiveSwitcher, SIGNAL(done()), this, SLOT(perspectiveSwitchEnd()));
+        connect(_perspectiveSwitcher, SIGNAL(deactivated()), this, SLOT(perspectiveSwitchEnd()));
         _perspective = _perspectiveSwitcher;
-        _perspectiveSwitcher->start();
+        _perspectiveSwitcher->activate();
     }
 }
 
