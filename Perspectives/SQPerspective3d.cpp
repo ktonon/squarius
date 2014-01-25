@@ -8,8 +8,8 @@
 
 #include "SQPerspective3d.h"
 
-SQPerspective3d::SQPerspective3d(SQPuzzle::SP puzzle, QObject *parent) :
-    SQPerspective(puzzle, parent)
+SQPerspective3d::SQPerspective3d(int maxDimension, QObject *parent) :
+    SQPerspective(maxDimension, parent)
 {
 }
 
@@ -20,7 +20,7 @@ SQPerspective3d::~SQPerspective3d()
 
 void SQPerspective3d::setRatio(GLfloat ratio)
 {
-    float h = _puzzle->maxDimension() / 2.0f;
+    float h = _maxDimension / 2.0f;
     float w = h * ratio;
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
@@ -36,11 +36,6 @@ void SQPerspective3d::activate()
 }
 
 void SQPerspective3d::deactivate()
-{
-
-}
-
-void SQPerspective3d::updateOrientation(const GLfloat* const modelView)
 {
 
 }

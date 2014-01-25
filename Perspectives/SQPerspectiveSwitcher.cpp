@@ -9,8 +9,8 @@
 #include "SQPerspectiveSwitcher.h"
 #include "Utilities/Matrix.h"
 
-SQPerspectiveSwitcher::SQPerspectiveSwitcher(SQPuzzle::SP puzzle, SQPerspective *start, SQPerspective *end, int duration, QObject *parent) :
-    SQPerspective(puzzle, parent),
+SQPerspectiveSwitcher::SQPerspectiveSwitcher(SQPerspective *start, SQPerspective *end, int duration, QObject *parent) :
+    SQPerspective(start->maxDimension(), parent),
     _startPerspective(start),
     _endPerspective(end),
     _timer(),
@@ -62,11 +62,6 @@ void SQPerspectiveSwitcher::activate()
 }
 
 void SQPerspectiveSwitcher::deactivate()
-{
-
-}
-
-void SQPerspectiveSwitcher::updateOrientation(const GLfloat* const modelView)
 {
 
 }

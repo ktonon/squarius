@@ -25,8 +25,9 @@ SQPuzzleEngine::SQPuzzleEngine(SQPuzzle::SP puzzle, QObject *parent) :
     _isFirstRender(true),
     _offset(0.0f)
 {
-    _perspective2d = new SQPerspective2d(puzzle, this);
-    _perspective3d = new SQPerspective3d(puzzle, this);
+    int n = puzzle->maxDimension();
+    _perspective2d = new SQPerspective2d(n, this);
+    _perspective3d = new SQPerspective3d(n, this);
     _perspective = _perspective2d;
 }
 
@@ -36,7 +37,7 @@ SQPuzzleEngine::~SQPuzzleEngine()
 
 void SQPuzzleEngine::renderModel()
 {
-    _perspective->renderModel();
+    _puzzle->renderCells();
 }
 
 void SQPuzzleEngine::perspectiveSwitchBegin()
@@ -46,7 +47,6 @@ void SQPuzzleEngine::perspectiveSwitchBegin()
     else
     {
         _perspectiveSwitcher = new SQPerspectiveSwitcher(
-                    _puzzle,
                     _perspective,
                     otherPerspective(),
                     SQPerspectiveSwitcher::DEFAULT_DURATION,
@@ -119,7 +119,7 @@ void SQPuzzleEngine::pullViewToAxis()
                 _modelViewMatrix[0+d] = w[0];
                 _modelViewMatrix[4+d] = w[1];
                 _modelViewMatrix[8+d] = w[2];
-                _perspective->updateOrientation(_modelViewMatrix);
+                _puzzle->updateOrientation(_modelViewMatrix);
             } else {
                 _modelViewMatrix[0+d] = v[0] + delta[0] / mag * incr;
                 _modelViewMatrix[4+d] = v[1] + delta[1] / mag * incr;

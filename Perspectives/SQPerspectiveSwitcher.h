@@ -28,7 +28,7 @@ public:
      * @param duration The duration of the animation in milliseconds
      * @param parent Qt parent object
      */
-    explicit SQPerspectiveSwitcher(SQPuzzle::SP puzzle, SQPerspective* start, SQPerspective* end, int duration = DEFAULT_DURATION, QObject *parent = 0);
+    explicit SQPerspectiveSwitcher(SQPerspective* start, SQPerspective* end, int duration = DEFAULT_DURATION, QObject *parent = 0);
     virtual ~SQPerspectiveSwitcher();
 
     /** @name Getters */
@@ -48,7 +48,6 @@ public:
     virtual void setRatio(GLfloat ratio);
     virtual void activate();
     virtual void deactivate();
-    virtual void updateOrientation(const GLfloat* const modelView);
     /** @} */
 
 signals:

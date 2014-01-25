@@ -15,7 +15,7 @@ class SQPerspective2d : public SQPerspective
 {
     Q_OBJECT
 public:
-    explicit SQPerspective2d(SQPuzzle::SP puzzle, QObject *parent = 0);
+    explicit SQPerspective2d(int maxDimension, QObject *parent = 0);
     virtual ~SQPerspective2d();
 
     /** @name SQPerspective interface */
@@ -23,7 +23,6 @@ public:
     virtual void setRatio(GLfloat ratio);
     virtual void activate();
     virtual void deactivate();
-    virtual void updateOrientation(const GLfloat* const modelView);
     /** @} */
 
 private:

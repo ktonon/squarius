@@ -8,10 +8,10 @@
 
 #include "SQPerspective.h"
 
-SQPerspective::SQPerspective(SQPuzzle::SP puzzle, QObject *parent) :
+SQPerspective::SQPerspective(int maxDimension, QObject *parent) :
     QObject(parent),
-    _puzzle(puzzle),
-    _projectionMatrix()
+    _projectionMatrix(),
+    _maxDimension(maxDimension)
 {
 }
 

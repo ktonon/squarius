@@ -10,6 +10,7 @@
 #define SQPUZZLE_H
 
 #include <QtCore>
+#include <QtOpenGL>
 #include <math.h>
 
 class SQPuzzle : public QObject
@@ -40,6 +41,12 @@ public:
     /** @name Commands */
     /** @{ */
     void renderCells();
+
+    /**
+     * @brief Update orientation
+     * @param modelView The model view matrix
+     */
+    void updateOrientation(const GLfloat* const modelView);
     /** @} */
 
 signals:
