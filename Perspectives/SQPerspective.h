@@ -10,7 +10,7 @@
 #define SQPERSPECTIVE_H
 
 #include <QtCore>
-#include <QtOpenGL>
+#include "SQOpenGL.h"
 #include "SQTypes.h"
 
 

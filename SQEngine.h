@@ -11,6 +11,7 @@
 
 #include <QtCore>
 #include <QGLWidget>
+#include <SQOpenGL.h>
 class SQPuzzleEngine;
 
 

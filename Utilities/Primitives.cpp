@@ -7,7 +7,7 @@
  */
 
 #include "Primitives.h"
-#include <QtOpenGL>
+#include "SQOpenGL.h"
 
 void drawCube() {
     static GLshort tubeVertices[] = {

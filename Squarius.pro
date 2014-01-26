@@ -42,6 +42,7 @@ HEADERS  += MainWindow.h \
     Math/SQVector.h \
     SQMath.h \
     Game/SQBlock.h \
-    Utilities/Primitives.h
+    Utilities/Primitives.h \
+    SQOpenGL.h
 
 FORMS    += MainWindow.ui

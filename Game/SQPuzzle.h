@@ -10,7 +10,7 @@
 #define SQPUZZLE_H
 
 #include <QtCore>
-#include <QtOpenGL>
+#include "SQOpenGL.h"
 #include "SQBlock.h"
 #include "SQMath.h"
 
