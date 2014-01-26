@@ -6,8 +6,8 @@
  * All Rights Reserved
  */
 
-#ifndef PERSPECTIVE_H
-#define PERSPECTIVE_H
+#ifndef SQPERSPECTIVE_H
+#define SQPERSPECTIVE_H
 
 #include <QtCore>
 #include <QtOpenGL>
@@ -64,4 +64,4 @@ protected:
 
 };
 
-#endif // PERSPECTIVE_H
+#endif // SQPERSPECTIVE_H

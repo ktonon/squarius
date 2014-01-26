@@ -6,8 +6,8 @@
  * All Rights Reserved
  */
 
-#ifndef MATRIX_H
-#define MATRIX_H
+#ifndef SQMATRIX_H
+#define SQMATRIX_H
 
 #include <QtOpenGL>
 
@@ -21,4 +21,4 @@ void sqMatrixCopy(GLfloat* const dest, const GLfloat* const src);
 
 QString sqMatrixToString(const GLfloat* const m);
 
-#endif // MATRIX_H
+#endif // SQMATRIX_H
