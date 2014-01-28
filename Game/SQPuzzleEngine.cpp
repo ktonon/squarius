@@ -62,22 +62,35 @@ void SQPuzzleEngine::perspectiveSwitchEnd()
     SafeDeleteLater(_perspectiveSwitcher);
 }
 
+void SQPuzzleEngine::updateModelView()
+{
+    applyGesturesToModelView();
+    if (shouldPullViewToAxis()) pullViewToAxis();
+}
+
 void SQPuzzleEngine::applyGesturesToModelView()
 {
-    glPushMatrix();
-    if (_isFirstRender)
-    {
-        _isFirstRender = false;
-        glLoadIdentity();
-    }
-    else
-        glLoadMatrixf(_modelViewMatrix);
+//    glPushMatrix();
+//    if (_isFirstRender)
+//    {
+//        _isFirstRender = false;
+//        glLoadIdentity();
+//    }
+//    else
+//        glLoadMatrixf(_modelViewMatrix);
 
-    glRotatef(_rotI, _modelViewMatrix[0], _modelViewMatrix[4], _modelViewMatrix[8]);
-    glRotatef(_rotJ, _modelViewMatrix[1], _modelViewMatrix[5], _modelViewMatrix[9]);
-    glRotatef(_rotK, _modelViewMatrix[2], _modelViewMatrix[6], _modelViewMatrix[10]);
-    glGetFloatv(GL_MODELVIEW_MATRIX, _modelViewMatrix);
-    glPopMatrix();
+//    glRotatef(_rotI, _modelViewMatrix[0], _modelViewMatrix[4], _modelViewMatrix[8]);
+//    glRotatef(_rotJ, _modelViewMatrix[1], _modelViewMatrix[5], _modelViewMatrix[9]);
+//    glRotatef(_rotK, _modelViewMatrix[2], _modelViewMatrix[6], _modelViewMatrix[10]);
+//    glGetFloatv(GL_MODELVIEW_MATRIX, _modelViewMatrix);
+    for (int i = 0; i < SQ_MATRIX_SIZE; i++)
+        _modelViewMatrix[i] = 0.0f;
+
+    _modelViewMatrix[0] = 1.0f;
+    _modelViewMatrix[5] = 1.0f;
+    _modelViewMatrix[10] = 1.0f;
+    _modelViewMatrix[15] = 1.0f;
+//    glPopMatrix();
     _rotI = _rotJ = _rotK = 0.0f;
 }
 

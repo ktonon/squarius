@@ -21,14 +21,24 @@ SQPerspective3d::~SQPerspective3d()
 
 void SQPerspective3d::setRatio(GLfloat ratio)
 {
-    float h = _maxDimension / 2.0f;
-    float w = h * ratio;
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glLoadIdentity();
-    glFrustum(-w, w, -h, h, SQ_NEAR, SQ_NEAR * 2.0f + h * 2.0f);
-    glGetFloatv(GL_PROJECTION_MATRIX, _projectionMatrix);
-    glPopMatrix();
+    float w, h, n, f;
+    if (ratio > 1)
+    {
+        h = (_maxDimension / 2.0f) * 1.1f;
+        w = h * ratio;
+    }
+    else
+    {
+        w = (_maxDimension / 2.0f) * 1.1f;
+        h = w / ratio;
+    }
+    n = SQ_NEAR;
+    f = SQ_NEAR * _maxDimension;
+    _projectionMatrix[0] = n / w;
+    _projectionMatrix[5] = n / h;
+    _projectionMatrix[10] = - (f + n) / (f - n);
+    _projectionMatrix[11] = -1.0f;
+    _projectionMatrix[14] = -2.0f * f * n / (f - n);
 }
 
 void SQPerspective3d::activate()

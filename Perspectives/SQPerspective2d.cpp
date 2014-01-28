@@ -21,14 +21,24 @@ SQPerspective2d::~SQPerspective2d()
 
 void SQPerspective2d::setRatio(GLfloat ratio)
 {
-    float h = (_maxDimension / 2.0f) * 1.1f;
-    float w = h * ratio;
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glLoadIdentity();
-    glOrtho(-w, w, -h, h, 1, 50);
-    glGetFloatv(GL_PROJECTION_MATRIX, _projectionMatrix);
-    glPopMatrix();
+    float w, h, n, f;
+    if (ratio > 1)
+    {
+        h = (_maxDimension / 2.0f) * 1.1f;
+        w = h * ratio;
+    }
+    else
+    {
+        w = (_maxDimension / 2.0f) * 1.1f;
+        h = w / ratio;
+    }
+    n = SQ_NEAR;
+    f = SQ_NEAR * _maxDimension;
+    _projectionMatrix[0] = 1 / w;
+    _projectionMatrix[5] = 1 / h;
+    _projectionMatrix[10] = -2.0f / (f - n);
+    _projectionMatrix[14] = -1.0f * (f + n) / (f - n);
+    _projectionMatrix[15] = 1.0f;
     // TODO: calculate 289.0f instead of hard coding it!
     _cellSize = 289.0f / _maxDimension;
 }

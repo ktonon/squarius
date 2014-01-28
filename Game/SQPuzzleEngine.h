@@ -72,11 +72,7 @@ public slots:
             _perspectiveSwitcher->setRatio(ratio);
     }
 
-    void updateModelView()
-    {
-        applyGesturesToModelView();
-        if (shouldPullViewToAxis()) pullViewToAxis();
-    }
+    void updateModelView();
 
     void perspectiveSwitchBegin();
 
