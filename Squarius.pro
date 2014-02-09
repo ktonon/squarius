@@ -46,3 +46,10 @@ HEADERS  += MainWindow.h \
     SQOpenGL.h
 
 FORMS    += MainWindow.ui
+
+OTHER_FILES += \
+    fshader.fsh \
+    vshader.vsh
+
+RESOURCES += \
+    shaders.qrc

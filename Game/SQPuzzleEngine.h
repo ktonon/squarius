@@ -12,15 +12,17 @@
 #include "SQPerspectives.h"
 #include "SQPuzzle.h"
 #include "SQTypes.h"
-#include <QObject>
+#include "SQOpenGL.h"
 
 
-class SQPuzzleEngine : public QObject
+class SQPuzzleEngine : public QGLFunctions
 {
     Q_OBJECT
 public:
     explicit SQPuzzleEngine(SQPuzzle::SP puzzle, QObject *parent = 0);
     virtual ~SQPuzzleEngine();
+
+    void init();
 
     /** @name Predicates */
     /** @{ */
@@ -34,9 +36,7 @@ public:
     /** @{ */
     SQPuzzle::SP puzzle() const { return _puzzle; }
 
-    const GLfloat* modelViewMatrix() { return _modelViewMatrix; }
-
-    const GLfloat* projectionMatrix() { return _perspective->projectionMatrix(); }
+    QMatrix4x4 mvpMatrix() const { return _perspective->projectionMatrix() * _modelViewMatrix; }
 
     GLfloat distanceToModelView() const { return SQ_NEAR * 1.5f + _offset; }
 
@@ -101,7 +101,7 @@ private:
     bool _isCubeLocked;
     bool _isGesturing;
 
-    GLfloat _modelViewMatrix[SQ_MATRIX_SIZE];
+    QMatrix4x4 _modelViewMatrix;
     GLfloat _rotI;
     GLfloat _rotJ;
     GLfloat _rotK;

@@ -10,12 +10,11 @@
 #define GLWIDGET_H
 
 #include <QtCore>
-#include <QGLWidget>
-#include <SQOpenGL.h>
+#include "SQOpenGL.h"
 class SQPuzzleEngine;
 
 
-class SQEngine : public QGLWidget
+class SQEngine : public QGLWidget, public QGLFunctions
 {
     Q_OBJECT
 public:
@@ -28,14 +27,16 @@ public:
     virtual void paintGL();
     virtual void resizeGL(int w, int h);
 
+    void initShaders();
+
+    virtual void timerEvent(QTimerEvent *);
+
 public slots:
     void togglePerspective();
-    void tick();
 
 private:
-    bool shouldStartRendering() const { return _width != -1 && !_renderTimer.isActive(); }
-
-    QTimer _renderTimer;
+    QGLShaderProgram _shaderProgram;
+    QBasicTimer _renderTimer;
     SQPuzzleEngine* _puzzleEngine;
     GLint _height;
     GLint _width;

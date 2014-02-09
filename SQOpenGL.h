@@ -10,6 +10,7 @@
 #define SQOPENGL_H
 
 #include <QtOpenGL>
+#include <QMatrix4x4>
 
 #if defined(Q_OS_IOS)
 #include <OpenGLES/ES1/gl.h>

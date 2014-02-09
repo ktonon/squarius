@@ -34,11 +34,9 @@ void SQPerspective2d::setRatio(GLfloat ratio)
     }
     n = SQ_NEAR;
     f = SQ_NEAR * _maxDimension;
-    _projectionMatrix[0] = 1 / w;
-    _projectionMatrix[5] = 1 / h;
-    _projectionMatrix[10] = -2.0f / (f - n);
-    _projectionMatrix[14] = -1.0f * (f + n) / (f - n);
-    _projectionMatrix[15] = 1.0f;
+    _projectionMatrix.setToIdentity();
+    _projectionMatrix.ortho(w, w, h, h, n, f);
+
     // TODO: calculate 289.0f instead of hard coding it!
     _cellSize = 289.0f / _maxDimension;
 }

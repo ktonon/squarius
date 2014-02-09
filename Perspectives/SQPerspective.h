@@ -28,7 +28,7 @@ public:
      * @brief Return the engines projection matrix.
      * @return A 4x4 projection matrix
      */
-    virtual const GLfloat* projectionMatrix() { return _projectionMatrix; }
+    virtual QMatrix4x4 projectionMatrix() { return _projectionMatrix; }
 
     /**
      * @brief Maximum number of cells being rendered by this perspective
@@ -59,7 +59,7 @@ signals:
     void deactivated();
 
 protected:
-    GLfloat _projectionMatrix[SQ_MATRIX_SIZE];
+    QMatrix4x4 _projectionMatrix;
     int _maxDimension;
 
 };

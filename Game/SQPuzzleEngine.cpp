@@ -36,6 +36,11 @@ SQPuzzleEngine::~SQPuzzleEngine()
 {
 }
 
+void SQPuzzleEngine::init()
+{
+
+}
+
 void SQPuzzleEngine::renderModel()
 {
     _puzzle->renderCells();

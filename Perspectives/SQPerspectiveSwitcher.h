@@ -45,7 +45,7 @@ public:
 
     /** @name SQPerspective interface */
     /** @{ */
-    virtual const GLfloat* projectionMatrix();
+    virtual QMatrix4x4 projectionMatrix();
     virtual void setRatio(GLfloat ratio);
 public slots:
     virtual void activate();

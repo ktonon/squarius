@@ -30,19 +30,20 @@ SQPerspectiveSwitcher::~SQPerspectiveSwitcher()
 
 }
 
-const GLfloat* SQPerspectiveSwitcher::projectionMatrix()
+QMatrix4x4 SQPerspectiveSwitcher::projectionMatrix()
 {
     float k = (float) elapsedTime() / _timer.interval();
     float theta = k * M_PI;
     float ratio = (1.0f - cosf(theta)) / 2.0f;
     theta = ratio * M_PI;
     ratio = (1.0f - cosf(theta)) / 2.0f;
-    const GLfloat* a = _startPerspective->projectionMatrix();
-    const GLfloat* b = _endPerspective->projectionMatrix();
-    for (int i = 0; i < SQ_MATRIX_SIZE; i++)
-    {
-        _projectionMatrix[i] = a[i] + (b[i] - a[i]) * ratio;
-    }
+//    const GLfloat* a = _startPerspective->projectionMatrix();
+//    const GLfloat* b = _endPerspective->projectionMatrix();
+//    for (int i = 0; i < SQ_MATRIX_SIZE; i++)
+//    {
+//        _projectionMatrix[i] = a[i] + (b[i] - a[i]) * ratio;
+//    }
+    _projectionMatrix = _startPerspective->projectionMatrix();
     return _projectionMatrix;
 }
 
