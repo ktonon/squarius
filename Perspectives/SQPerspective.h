@@ -43,6 +43,8 @@ public:
      */
     virtual void setRatio(GLfloat ratio) = 0;
 
+    virtual void setShape(int w, int h) = 0;
+
 public slots:
     /**
      * @brief Make the engine active.

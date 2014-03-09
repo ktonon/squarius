@@ -10,6 +10,7 @@
 #define SQTYPES_H
 
 #define SQ_NEAR 10.0f
+#define SQ_FAR 100.0f
 
 #define SQ_MATRIX_SIZE 16
 

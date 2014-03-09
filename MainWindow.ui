@@ -9,15 +9,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>320</width>
-    <height>568</height>
+    <width>422</width>
+    <height>661</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Squarius</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="4,1,0">
     <item>
      <widget class="SQEngine" name="widget" native="true">
       <property name="sizePolicy">
@@ -33,6 +33,9 @@
        </size>
       </property>
      </widget>
+    </item>
+    <item>
+     <widget class="QTextBrowser" name="textBrowser"/>
     </item>
     <item>
      <widget class="QPushButton" name="pushButton">
@@ -52,6 +55,7 @@
    <header>SQEngine.h</header>
    <container>1</container>
    <slots>
+    <signal>perspectiveChanged()</signal>
     <slot>togglePerspective()</slot>
    </slots>
   </customwidget>
@@ -65,8 +69,8 @@
    <slot>togglePerspective()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>339</x>
-     <y>264</y>
+     <x>345</x>
+     <y>656</y>
     </hint>
     <hint type="destinationlabel">
      <x>284</x>
@@ -74,5 +78,24 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>widget</sender>
+   <signal>perspectiveChanged()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>engineChangedState()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>63</x>
+     <y>427</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>5</x>
+     <y>491</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>engineChangedState()</slot>
+ </slots>
 </ui>

@@ -54,24 +54,13 @@ public:
 };
 
 
-#pragma mark -
-#pragma mark Typedefs
-
 typedef SQPoint<int> SQPointI;
 typedef SQPoint<float> SQPointF;
-
-
-#pragma mark -
-#pragma mark Constructors
 
 template <typename T> SQPoint<T>::SQPoint():x(0), y(0), z(0) {}
 template <typename T> SQPoint<T>::SQPoint(SQPoint<T> const &other): x(other.x), y(other.y), z(other.z) {}
 template <typename T> SQPoint<T>::SQPoint(T x, T y, T z):x(x), y(y), z(z) {}
 template <typename T> SQPoint<T>::~SQPoint() {}
-
-
-#pragma mark -
-#pragma mark Arithmetic
 
 template <typename T> SQPoint<T> SQPoint<T>::operator+(SQVector<T> const &m) const {
     return SQPoint<T>(x + m.u, y + m.v, z + m.w);
@@ -85,10 +74,6 @@ template <typename T> SQVector<T> SQPoint<T>::operator-(SQPoint<T> const &other)
     return SQVector<T>(x - other.x, y - other.y, z - other.z);
 }
 
-
-#pragma mark -
-#pragma mark In-place arthmetic
-
 template <typename T> void SQPoint<T>::operator+=(SQVector<T> const &m) {
     x += m.u; y += m.v; z += m.w;
 }
@@ -96,10 +81,6 @@ template <typename T> void SQPoint<T>::operator+=(SQVector<T> const &m) {
 template <typename T> void SQPoint<T>::operator-=(SQVector<T> const &m) {
     x -= m.u; y -= m.v; z -= m.w;
 }
-
-
-#pragma mark -
-#pragma mark Utility
 
 template <typename T> QString SQPoint<T>::toString(void) const {
     return QString("(%d, %d, %d)").arg(x).arg(y).arg(z);

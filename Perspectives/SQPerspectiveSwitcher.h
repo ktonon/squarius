@@ -47,6 +47,7 @@ public:
     /** @{ */
     virtual QMatrix4x4 projectionMatrix();
     virtual void setRatio(GLfloat ratio);
+    virtual void setShape(int w, int h);
 public slots:
     virtual void activate();
     /** @} */

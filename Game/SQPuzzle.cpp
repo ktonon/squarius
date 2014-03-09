@@ -7,7 +7,7 @@
  */
 
 #include "SQPuzzle.h"
-#include "Utilities/Primitives.h"
+#include "Utilities/SQPrimitives.h"
 
 SQPuzzle::SQPuzzle(SQPuzzle::World world, SQPuzzle::Level level) :
     QObject(0),
@@ -57,24 +57,22 @@ void SQPuzzle::renderCells()
         glTranslatef(block->position().x - u,
                      block->position().y - v,
                      block->position().z - w);
-        drawCube();
+        SQPrimitives::instance()->drawCubeGeometry();
         glPopMatrix();
     }
 }
 
-void SQPuzzle::updateOrientation(const GLfloat * const modelView)
+void SQPuzzle::updateOrientation(const QMatrix4x4 &modelView)
 {
-    _i = SQVectorI(modelView[0], modelView[4], modelView[8]);
-    _j = SQVectorI(modelView[1], modelView[5], modelView[9]);
-    _k = SQVectorI(modelView[2], modelView[6], modelView[10]);
-    SQVectorI diagonal = _i + _j + _k;
-    _origin = SQPointI(diagonal.u > 0 ? 0 : (_shape[0] - 1),
-                       diagonal.v > 0 ? 0 : (_shape[1] - 1),
-                       diagonal.w > 0 ? 0 : (_shape[2] - 1));
-    _colIndex = _i.u ? 0 : (_i.v ? 1 : 2);
-    _rowIndex = _j.u ? 0 : (_j.v ? 1 : 2);
-
-    qDebug() << QString("\nOrientation\n%1\n%2\n%3").arg(_i.toString()).arg(_j.toString()).arg(_k.toString())
-             << "\nOrigin\n" << _origin.toString()
-             << QString("\nCol and row indices: %1, %2").arg(_colIndex).arg(_rowIndex);
+    _i = modelView.column(0);
+    _j = modelView.column(1);
+    _k = modelView.column(2);
+    QVector4D diagonal = _i + _j + _k;
+    _origin = QVector4D(
+            diagonal.x() > 0 ? 0 : (_shape[0] - 1),
+            diagonal.y() > 0 ? 0 : (_shape[1] - 1),
+            diagonal.z() > 0 ? 0 : (_shape[2] - 1),
+            0);
+    _colIndex = _i.x() ? 0 : (_i.y() ? 1 : 2);
+    _rowIndex = _j.x() ? 0 : (_j.y() ? 1 : 2);
 }

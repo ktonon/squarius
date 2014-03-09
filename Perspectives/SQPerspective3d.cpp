@@ -35,7 +35,18 @@ void SQPerspective3d::setRatio(GLfloat ratio)
     n = SQ_NEAR;
     f = SQ_NEAR * _maxDimension;
     _projectionMatrix.setToIdentity();
-    _projectionMatrix.frustum(w, w, h, h, n, f);
+    _projectionMatrix.frustum(-w, w, -h, h, n, f);
+    //    _projectionMatrix.perspective(60, ratio, 1.0, 100.0);
+}
+
+void SQPerspective3d::setShape(int w, int h)
+{
+    float k = _maxDimension;
+    _projectionMatrix.setToIdentity();
+    _projectionMatrix.frustum(-k, k,
+                              -k, k,
+                              SQ_NEAR, SQ_FAR);
+//    _projectionMatrix.frustum(-w, w, -h, h, SQ_NEAR, SQ_FAR);
 }
 
 void SQPerspective3d::activate()

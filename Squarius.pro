@@ -24,7 +24,7 @@ SOURCES += main.cpp\
     Game/SQPuzzleEngine.cpp \
     Utilities/Matrix.cpp \
     Game/SQBlock.cpp \
-    Utilities/Primitives.cpp
+    Utilities/SQPrimitives.cpp
 
 HEADERS  += MainWindow.h \
     SQEngine.h \
@@ -42,7 +42,7 @@ HEADERS  += MainWindow.h \
     Math/SQVector.h \
     SQMath.h \
     Game/SQBlock.h \
-    Utilities/Primitives.h \
+    Utilities/SQPrimitives.h \
     SQOpenGL.h
 
 FORMS    += MainWindow.ui
@@ -52,4 +52,5 @@ OTHER_FILES += \
     vshader.vsh
 
 RESOURCES += \
-    shaders.qrc
+    shaders.qrc \
+    textures.qrc

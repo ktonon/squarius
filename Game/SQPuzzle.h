@@ -6,13 +6,12 @@
  * All Rights Reserved
  */
 
-#ifndef SQPUZZLE_H
-#define SQPUZZLE_H
-
+#pragma once
 #include <QtCore>
 #include "SQOpenGL.h"
 #include "SQBlock.h"
 #include "SQMath.h"
+#include <QGLShaderProgram>
 
 class SQPuzzle : public QObject
 {
@@ -47,7 +46,7 @@ public:
      * @brief Update orientation
      * @param modelView The model view matrix
      */
-    void updateOrientation(const GLfloat* const modelView);
+    void updateOrientation(const QMatrix4x4& modelView);
     /** @} */
 
 signals:
@@ -63,9 +62,7 @@ private:
     SQBlock::List _blocks;
 
     int _shape[3];
-    SQVectorI _i, _j, _k;
-    SQPointI _origin;
+    QVector4D _i, _j, _k;
+    QVector4D _origin;
     int _colIndex, _rowIndex;
 };
-
-#endif // SQPUZZLE_H

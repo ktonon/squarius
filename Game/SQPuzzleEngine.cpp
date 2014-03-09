@@ -36,11 +36,6 @@ SQPuzzleEngine::~SQPuzzleEngine()
 {
 }
 
-void SQPuzzleEngine::init()
-{
-
-}
-
 void SQPuzzleEngine::renderModel()
 {
     _puzzle->renderCells();
@@ -65,6 +60,7 @@ void SQPuzzleEngine::perspectiveSwitchEnd()
 {
     _perspective = _perspectiveSwitcher->endPerspective();
     SafeDeleteLater(_perspectiveSwitcher);
+    emit perspectedSwitchEnded();
 }
 
 void SQPuzzleEngine::updateModelView()
@@ -75,72 +71,67 @@ void SQPuzzleEngine::updateModelView()
 
 void SQPuzzleEngine::applyGesturesToModelView()
 {
-//    glPushMatrix();
-//    if (_isFirstRender)
-//    {
-//        _isFirstRender = false;
-//        glLoadIdentity();
-//    }
-//    else
-//        glLoadMatrixf(_modelViewMatrix);
+    if (_isFirstRender)
+    {
+        _isFirstRender = false;
+        _modelViewMatrix.setToIdentity();
+        _modelViewMatrix.translate(0, 0, -20);
+    }
 
-//    glRotatef(_rotI, _modelViewMatrix[0], _modelViewMatrix[4], _modelViewMatrix[8]);
-//    glRotatef(_rotJ, _modelViewMatrix[1], _modelViewMatrix[5], _modelViewMatrix[9]);
-//    glRotatef(_rotK, _modelViewMatrix[2], _modelViewMatrix[6], _modelViewMatrix[10]);
-//    glGetFloatv(GL_MODELVIEW_MATRIX, _modelViewMatrix);
-    for (int i = 0; i < SQ_MATRIX_SIZE; i++)
-        _modelViewMatrix[i] = 0.0f;
+    _modelViewMatrix.rotate(_rotI, QVector3D(1,0,0));
+    _modelViewMatrix.rotate(_rotJ, QVector3D(0,1,0));
+    _modelViewMatrix.rotate(_rotK, QVector3D(0,0,1));
 
-    _modelViewMatrix[0] = 1.0f;
-    _modelViewMatrix[5] = 1.0f;
-    _modelViewMatrix[10] = 1.0f;
-    _modelViewMatrix[15] = 1.0f;
-//    glPopMatrix();
-    _rotI = _rotJ = _rotK = 0.0f;
+//    _rotI = _rotJ = _rotK = 0.0f;
+    _rotI = 5;
+    _rotJ = 7;
+    _rotK = 3;
 }
 
 void SQPuzzleEngine::pullViewToAxis()
 {
     const GLubyte DIM_A = 1, DIM_B = 2, DIM_C = 4;
-    GLfloat v[3];
-    GLfloat w[3];
+    QVector4D v;
+    QVector4D w;
     GLfloat a, b, c;
     GLubyte alreadyUsedDims = 0; // keep track of used dimensions, 1, 2, 4
     GLubyte useDim;
-    GLfloat delta[3];
+    QVector4D delta;
     GLfloat mag;
     GLfloat incr = 0.03;
     alreadyUsedDims = 0; // keep track of used dimensions, 1, 2, 4
-    for (int d=0; d<3; d++) {
-        w[0] = w[1] = w[2] = 0;
-        v[0] = _modelViewMatrix[0+d];
-        v[1] = _modelViewMatrix[4+d];
-        v[2] = _modelViewMatrix[8+d];
-        a = fabs(v[0]);
-        b = fabs(v[1]);
-        c = fabs(v[2]);
+    for (int d=0; d<3; d++)
+    {
+        w = QVector4D();
+        v = _modelViewMatrix.column(d);
+        a = fabs(v.x());
+        b = fabs(v.y());
+        c = fabs(v.z());
 
         if (a > b && a > c) useDim = alreadyUsedDims & DIM_A ? (b > c ? (alreadyUsedDims & DIM_B ? 2 : 1) : (alreadyUsedDims & DIM_C ? 1 : 2)) : 0;
         else if (b > a && b > c) useDim = alreadyUsedDims & DIM_B ? (a > c ? (alreadyUsedDims & DIM_A ? 2 : 0) : (alreadyUsedDims & DIM_C ? 0 : 2)) : 1;
         else if (c > a && c > b) useDim = alreadyUsedDims & DIM_C ? (a > b ? (alreadyUsedDims & DIM_A ? 1 : 0) : (alreadyUsedDims & DIM_B ? 0 : 1)) : 2;
 
         alreadyUsedDims |= (GLubyte)pow(2, useDim);
-        w[useDim] = v[useDim] > 0 ? 1 : -1;
 
-        delta[0] = w[0] - v[0];
-        delta[1] = w[1] - v[1];
-        delta[2] = w[2] - v[2];
+        switch(useDim)
+        {
+        case 0: w.setX(v.x() > 0 ? 1 : -1); break;
+        case 1: w.setY(v.y() > 0 ? 1 : -1); break;
+        case 2: w.setZ(v.z() > 0 ? 1 : -1); break;
+        }
+
+        delta = w - v;
         mag = sqrt(delta[0] * delta[0] + delta[1] * delta[1] + delta[2] * delta[2]);
-        if (mag > 0) {
-            if (mag < 0.03) {
-                _modelViewMatrix[0+d] = w[0];
-                _modelViewMatrix[4+d] = w[1];
-                _modelViewMatrix[8+d] = w[2];
+        if (mag > 0)
+        {
+            if (mag < 0.03)
+            {
+                _modelViewMatrix.setColumn(d, w);
                 _puzzle->updateOrientation(_modelViewMatrix);
-            } else {
-                _modelViewMatrix[0+d] = v[0] + delta[0] / mag * incr;
-                _modelViewMatrix[4+d] = v[1] + delta[1] / mag * incr;
-                _modelViewMatrix[8+d] = v[2] + delta[2] / mag * incr;
+            } else
+            {
+                _modelViewMatrix.setColumn(d, v + delta / mag * incr);
             }
         }
     }

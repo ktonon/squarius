@@ -8,6 +8,8 @@
 
 #include "SQEngine.h"
 #include "Game/SQPuzzleEngine.h"
+#include "Utilities/Matrix.h"
+#include "Utilities/SQPrimitives.h"
 #include <locale.h>
 
 const int SQEngine::FRAMES_PER_SECOND = 30;
@@ -22,26 +24,28 @@ SQEngine::SQEngine(QWidget *parent) :
 {
     // TODO: replace this with real level loader
     _puzzleEngine = new SQPuzzleEngine(SQPuzzle::load(0, 0), this);
+    connect(_puzzleEngine, SIGNAL(perspectedSwitchEnded()), SIGNAL(perspectiveChanged()));
 }
 
 SQEngine::~SQEngine()
 {
+    deleteTexture(_texture);
 }
 
 void SQEngine::initializeGL()
 {
     initializeGLFunctions();
-
-    qDebug() << "Initializing shaders";
+    qglClearColor(Qt::black);
     initShaders();
-
-    glEnable(GL_CULL_FACE);
+    initTextures();
 
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
 
-    glClearColor(0.1f, 0.15f, 0.2f, 1.0f);
-
+    SQPrimitives::instance()->init(&_shaderProgram);
     _puzzleEngine->activate();
+    _puzzleEngine->updateModelView();
+    emit perspectiveChanged();
 
     // using QBasicTimer because its faster that QTimer
     _renderTimer.start(1000.0f / FRAMES_PER_SECOND, this);
@@ -73,6 +77,24 @@ void SQEngine::initShaders()
 
 }
 
+void SQEngine::initTextures()
+{
+    // Load cube.png image
+    glEnable(GL_TEXTURE_2D);
+    _texture = bindTexture(QImage(":/cube.png"));
+
+    // Set nearest filtering mode for texture minification
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+    // Set bilinear filtering mode for texture magnification
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    // Wrap texture coordinates by repeating
+    // f.ex. texture coordinate (1.1, 1.2) is same as (0.1, 0.2)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+}
+
 void SQEngine::timerEvent(QTimerEvent *)
 {
     _puzzleEngine->updateModelView();
@@ -81,25 +103,38 @@ void SQEngine::timerEvent(QTimerEvent *)
     updateGL();
 }
 
+QString SQEngine::toString() const
+{
+    return sqMatrixToString(_puzzleEngine->mvpMatrix());
+}
+
 void SQEngine::paintGL()
 {
-    // Set modelview-projection matrix
-    _shaderProgram->setUniformValue("mvp_matrix", _puzzleEngine->mvpMatrix());
-
+    // Clear color and depth buffer
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glPushMatrix();
+    // Set modelview-projection matrix
+    _shaderProgram.setUniformValue("mvp_matrix", _puzzleEngine->mvpMatrix());
+
+    // Use texture unit 0 which contains cube.png
+    _shaderProgram.setUniformValue("texture", 0);
+
+    // Draw the puzzle geometry
     _puzzleEngine->renderModel();
-    glPopMatrix();
 }
 
 void SQEngine::resizeGL(int w, int h)
 {
-    glViewport(0, 0, _width, _height);
-    GLfloat aspect = (GLfloat) w / ((GLfloat)h?h:1);
+    // Set OpenGL viewport to cover whole widget
+    glViewport(0, 0, w, h);
     _width = w;
     _height = h;
-    _puzzleEngine->setRatio(aspect);
+
+    // Calculate aspect ratio
+    qreal aspect = qreal(w) / qreal(h ? h : 1);
+
+//    _puzzleEngine->setRatio(aspect);
+    _puzzleEngine->setShape(w, h);
 }
 
 void SQEngine::togglePerspective()

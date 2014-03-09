@@ -15,14 +15,12 @@
 #include "SQOpenGL.h"
 
 
-class SQPuzzleEngine : public QGLFunctions
+class SQPuzzleEngine : public QObject, public QGLFunctions
 {
     Q_OBJECT
 public:
     explicit SQPuzzleEngine(SQPuzzle::SP puzzle, QObject *parent = 0);
     virtual ~SQPuzzleEngine();
-
-    void init();
 
     /** @name Predicates */
     /** @{ */
@@ -51,6 +49,9 @@ public:
     }
     /** @} */
 
+signals:
+    void perspectedSwitchEnded();
+
 public slots:
 
     /** @name Commands */
@@ -70,6 +71,14 @@ public slots:
         _perspective3d->setRatio(ratio);
         if (_perspectiveSwitcher != NULL)
             _perspectiveSwitcher->setRatio(ratio);
+    }
+
+    void setShape(int w, int h)
+    {
+        _perspective2d->setShape(w, h);
+        _perspective3d->setShape(w, h);
+        if (_perspectiveSwitcher != NULL)
+            _perspectiveSwitcher->setShape(w, h);
     }
 
     void updateModelView();

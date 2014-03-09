@@ -20,3 +20,8 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::engineChangedState()
+{
+    ui->textBrowser->setText(ui->widget->toString());
+}

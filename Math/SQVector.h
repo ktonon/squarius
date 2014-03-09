@@ -53,25 +53,13 @@ public:
 
 template <typename T> SQVector<T> operator*(T scalar, SQVector<T> m);
 
-
-#pragma mark -
-#pragma mark Typedefs
-
 typedef SQVector<int> SQVectorI;
 typedef SQVector<float> SQVectorF;
-
-
-#pragma mark -
-#pragma mark Constructors
 
 template <typename T> SQVector<T>::SQVector(): u(1), v(0), w(0) {}
 template <typename T> SQVector<T>::SQVector(SQVector<T> const &other): u(other.u), v(other.v), w(other.w) {}
 template <typename T> SQVector<T>::SQVector(T u, T v, T w): u(u), v(v), w(w) {}
 template <typename T> SQVector<T>::~SQVector() {}
-
-
-#pragma mark -
-#pragma mark Arithmetic
 
 template <typename T> SQVector<T> SQVector<T>::operator-(void) const {
     return SQVector<T>(-u, -v, -w);
@@ -105,10 +93,6 @@ template <typename T> SQVector<T> operator*(T scalar, SQVector<T> m) {
     return SQVector<T>(m.u * scalar, m.v * scalar, m.w * scalar);
 }
 
-
-#pragma mark -
-#pragma mark In-place arithmetic
-
 template <typename T> void SQVector<T>::operator+=(SQVector<T> const &other) {
     u += other.u; v += other.v; w += other.w;
 }
@@ -121,10 +105,6 @@ template <typename T> void SQVector<T>::operator*=(T scalar) {
     u *= scalar; v *= scalar; w *= scalar;
 }
 
-
-#pragma mark -
-#pragma mark Comparisson
-
 template <typename T> bool SQVector<T>::operator==(SQVector<T> const &other) const {
     return u == other.u && v == other.v && w == other.w;
 }
@@ -132,10 +112,6 @@ template <typename T> bool SQVector<T>::operator==(SQVector<T> const &other) con
 template <typename T> bool SQVector<T>::operator!=(SQVector<T> const &other) const {
     return u != other.u || v != other.v || w != other.w;
 }
-
-
-#pragma mark -
-#pragma mark Utility
 
 template <typename T> QString SQVector<T>::toString(void) const {
     return QString("(%d, %d, %d)").arg(u).arg(v).arg(w);

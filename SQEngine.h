@@ -6,9 +6,7 @@
  * All Rights Reserved
  */
 
-#ifndef GLWIDGET_H
-#define GLWIDGET_H
-
+#pragma once
 #include <QtCore>
 #include "SQOpenGL.h"
 class SQPuzzleEngine;
@@ -28,8 +26,14 @@ public:
     virtual void resizeGL(int w, int h);
 
     void initShaders();
+    void initTextures();
 
     virtual void timerEvent(QTimerEvent *);
+
+    QString toString() const;
+
+signals:
+    void perspectiveChanged();
 
 public slots:
     void togglePerspective();
@@ -37,9 +41,9 @@ public slots:
 private:
     QGLShaderProgram _shaderProgram;
     QBasicTimer _renderTimer;
+
     SQPuzzleEngine* _puzzleEngine;
+    GLuint _texture;
     GLint _height;
     GLint _width;
 };
-
-#endif // GLWIDGET_H

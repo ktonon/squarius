@@ -10,6 +10,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMatrix4x4>
 
 namespace Ui {
 class MainWindow;
@@ -22,6 +23,9 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+private slots:
+    void engineChangedState();
 
 private:
     Ui::MainWindow *ui;

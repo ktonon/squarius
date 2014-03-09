@@ -21,6 +21,7 @@ public:
     /** @name SQPerspective interface */
     /** @{ */
     virtual void setRatio(GLfloat ratio);
+    virtual void setShape(int w, int h);
 public slots:
     virtual void activate();
     virtual void deactivate();
