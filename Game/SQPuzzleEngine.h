@@ -9,13 +9,14 @@
 #ifndef SQPUZZLEENGINE_H
 #define SQPUZZLEENGINE_H
 
+#include "IPerspectiveProvider.h"
 #include "SQPerspectives.h"
 #include "SQPuzzle.h"
 #include "SQTypes.h"
 #include "SQOpenGL.h"
 
 
-class SQPuzzleEngine : public QObject, public QGLFunctions
+class SQPuzzleEngine : public QObject, public QGLFunctions, public IPerspectiveProvider
 {
     Q_OBJECT
 public:
@@ -30,13 +31,17 @@ public:
     bool isPerspective3d() const { return _perspective == _perspective3d; }
     /** @} */
 
+    /** @name IPerspectiveProvider methods */
+    /** @{ */
+
+    virtual SQPerspective *perspective() const { return _perspective; }
+
+    /** @} */
+
     /** @name Getters */
     /** @{ */
+
     SQPuzzle::SP puzzle() const { return _puzzle; }
-
-    QMatrix4x4 mvpMatrix() const { return _perspective->projectionMatrix() * _modelViewMatrix; }
-
-    GLfloat distanceToModelView() const { return SQ_NEAR * 1.5f + _offset; }
 
     SQPerspective* otherPerspective() const
     {
@@ -110,7 +115,6 @@ private:
     bool _isCubeLocked;
     bool _isGesturing;
 
-    QMatrix4x4 _modelViewMatrix;
     GLfloat _rotI;
     GLfloat _rotJ;
     GLfloat _rotK;

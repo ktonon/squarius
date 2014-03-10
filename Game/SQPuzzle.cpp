@@ -8,6 +8,7 @@
 
 #include "SQPuzzle.h"
 #include "Utilities/SQPrimitives.h"
+#include "Utilities/SQStack.h"
 
 SQPuzzle::SQPuzzle(SQPuzzle::World world, SQPuzzle::Level level) :
     QObject(0),
@@ -53,12 +54,14 @@ void SQPuzzle::renderCells()
 
     foreach(SQBlock::SP block, _blocks)
     {
-        glPushMatrix();
-        glTranslatef(block->position().x - u,
-                     block->position().y - v,
-                     block->position().z - w);
+        SQStack::instance()->push();
+        SQStack::instance()->translate(
+                    block->position().x - u,
+                    block->position().y - v,
+                    block->position().z - w)
+                ->apply();
         SQPrimitives::instance()->drawCubeGeometry();
-        glPopMatrix();
+        SQStack::instance()->pop();
     }
 }
 

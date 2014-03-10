@@ -24,7 +24,8 @@ SOURCES += main.cpp\
     Game/SQPuzzleEngine.cpp \
     Utilities/Matrix.cpp \
     Game/SQBlock.cpp \
-    Utilities/SQPrimitives.cpp
+    Utilities/SQPrimitives.cpp \
+    Utilities/SQStack.cpp
 
 HEADERS  += MainWindow.h \
     SQEngine.h \
@@ -43,7 +44,9 @@ HEADERS  += MainWindow.h \
     SQMath.h \
     Game/SQBlock.h \
     Utilities/SQPrimitives.h \
-    SQOpenGL.h
+    SQOpenGL.h \
+    Utilities/SQStack.h \
+    IPerspectiveProvider.h
 
 FORMS    += MainWindow.ui
 

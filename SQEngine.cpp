@@ -10,6 +10,7 @@
 #include "Game/SQPuzzleEngine.h"
 #include "Utilities/Matrix.h"
 #include "Utilities/SQPrimitives.h"
+#include "Utilities/SQStack.h"
 #include <locale.h>
 
 const int SQEngine::FRAMES_PER_SECOND = 30;
@@ -42,6 +43,7 @@ void SQEngine::initializeGL()
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
 
+    SQStack::instance()->init(&_shaderProgram, _puzzleEngine);
     SQPrimitives::instance()->init(&_shaderProgram);
     _puzzleEngine->activate();
     _puzzleEngine->updateModelView();
@@ -105,16 +107,13 @@ void SQEngine::timerEvent(QTimerEvent *)
 
 QString SQEngine::toString() const
 {
-    return sqMatrixToString(_puzzleEngine->mvpMatrix());
+    return sqMatrixToString(SQStack::instance()->mvpMatrix());
 }
 
 void SQEngine::paintGL()
 {
     // Clear color and depth buffer
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    // Set modelview-projection matrix
-    _shaderProgram.setUniformValue("mvp_matrix", _puzzleEngine->mvpMatrix());
 
     // Use texture unit 0 which contains cube.png
     _shaderProgram.setUniformValue("texture", 0);

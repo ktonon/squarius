@@ -8,6 +8,7 @@
 
 #include "SQPuzzleEngine.h"
 #include "Utilities/Memory.h"
+#include "Utilities/SQStack.h"
 
 SQPuzzleEngine::SQPuzzleEngine(SQPuzzle::SP puzzle, QObject *parent) :
     QObject(parent),
@@ -19,7 +20,6 @@ SQPuzzleEngine::SQPuzzleEngine(SQPuzzle::SP puzzle, QObject *parent) :
     _isActive(false),
     _isCubeLocked(true),
     _isGesturing(false),
-    _modelViewMatrix(),
     _rotI(0.0f),
     _rotJ(0.0f),
     _rotK(0.0f),
@@ -74,13 +74,15 @@ void SQPuzzleEngine::applyGesturesToModelView()
     if (_isFirstRender)
     {
         _isFirstRender = false;
-        _modelViewMatrix.setToIdentity();
-        _modelViewMatrix.translate(0, 0, -20);
+        SQStack::instance()
+                ->loadIdentity()
+                ->translate(0, 0, -20);
     }
 
-    _modelViewMatrix.rotate(_rotI, QVector3D(1,0,0));
-    _modelViewMatrix.rotate(_rotJ, QVector3D(0,1,0));
-    _modelViewMatrix.rotate(_rotK, QVector3D(0,0,1));
+    SQStack::instance()
+            ->rotate(_rotI, QVector3D(1,0,0))
+            ->rotate(_rotJ, QVector3D(0,1,0))
+            ->rotate(_rotK, QVector3D(0,0,1));
 
 //    _rotI = _rotJ = _rotK = 0.0f;
     _rotI = 5;
@@ -103,7 +105,7 @@ void SQPuzzleEngine::pullViewToAxis()
     for (int d=0; d<3; d++)
     {
         w = QVector4D();
-        v = _modelViewMatrix.column(d);
+//        v = _modelViewMatrix.column(d);
         a = fabs(v.x());
         b = fabs(v.y());
         c = fabs(v.z());
@@ -127,11 +129,11 @@ void SQPuzzleEngine::pullViewToAxis()
         {
             if (mag < 0.03)
             {
-                _modelViewMatrix.setColumn(d, w);
-                _puzzle->updateOrientation(_modelViewMatrix);
+//                _modelViewMatrix.setColumn(d, w);
+//                _puzzle->updateOrientation(_modelViewMatrix);
             } else
             {
-                _modelViewMatrix.setColumn(d, v + delta / mag * incr);
+//                _modelViewMatrix.setColumn(d, v + delta / mag * incr);
             }
         }
     }
