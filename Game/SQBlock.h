@@ -10,7 +10,8 @@
 #define SQBLOCK_H
 
 #include <QtCore>
-#include "SQMath.h"
+#include <QVector3D>
+#include <math.h>
 
 class SQBlock : public QObject
 {
@@ -26,21 +27,21 @@ public:
     typedef QSharedPointer<SQBlock> SP;
     typedef QList<SP> List;
 
-    static SP create(Type type = Concrete) { return SP(new SQBlock(SQPointI(), type)); }
-    static SP create(int x, int y, int z, Type type = Concrete) { return SP(new SQBlock(SQPointI(x, y, z), type)); }
-    static SP create(const SQPointI& position, Type type = Concrete) { return SP(new SQBlock(position, type)); }
+    static SP create(Type type = Concrete) { return SP(new SQBlock(QVector3D(), type)); }
+    static SP create(int x, int y, int z, Type type = Concrete) { return SP(new SQBlock(QVector3D(x, y, z), type)); }
+    static SP create(const QVector3D &position, Type type = Concrete) { return SP(new SQBlock(position, type)); }
     virtual ~SQBlock();
 
     /** @name Getters */
     /** @{ */
-    SQPointI position() const { return _position; }
+    QVector3D position() const { return _position; }
     Type type() const { return _type; }
     /** @} */
 
     QString toString() const
     {
-        return QString("Block at %1 with type %2")
-                .arg(_position.toString())
+        return QString("Block with type %2")
+//                .arg(_position.toString())
                 .arg(typeToString(_type));
     }
 
@@ -55,9 +56,9 @@ public:
     }
 
 private:
-    explicit SQBlock(const SQPointI& position, Type type = Concrete);
+    explicit SQBlock(const QVector3D &position, Type type = Concrete);
 
-    SQPointI _position;
+    QVector3D _position;
     Type _type;
 };
 

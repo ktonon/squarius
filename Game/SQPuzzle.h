@@ -10,7 +10,6 @@
 #include <QtCore>
 #include "SQOpenGL.h"
 #include "SQBlock.h"
-#include "SQMath.h"
 #include <QGLShaderProgram>
 
 class SQPuzzle : public QObject

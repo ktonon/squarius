@@ -39,9 +39,6 @@ HEADERS  += MainWindow.h \
     SQTypes.h \
     Utilities/Memory.h \
     Utilities/Matrix.h \
-    Math/SQPoint.h \
-    Math/SQVector.h \
-    SQMath.h \
     Game/SQBlock.h \
     Utilities/SQPrimitives.h \
     SQOpenGL.h \

@@ -8,7 +8,7 @@
 
 #include "SQBlock.h"
 
-SQBlock::SQBlock(const SQPointI &position, Type type) :
+SQBlock::SQBlock(const QVector3D &position, Type type) :
     QObject(0),
     _position(position),
     _type(type)

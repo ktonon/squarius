@@ -12,11 +12,4 @@
 #include <QtOpenGL>
 #include <QMatrix4x4>
 
-#if defined(Q_OS_IOS)
-#include <OpenGLES/ES1/gl.h>
-#include <OpenGLES/ES1/glext.h>
-#define glFrustum glFrustumf
-#define glOrtho glOrthof
-#endif
-
 #endif // SQOPENGL_H

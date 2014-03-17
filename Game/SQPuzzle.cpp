@@ -56,9 +56,9 @@ void SQPuzzle::renderCells()
     {
         SQStack::instance()->push();
         SQStack::instance()->translate(
-                    block->position().x - u,
-                    block->position().y - v,
-                    block->position().z - w)
+                    block->position().x() - u,
+                    block->position().y() - v,
+                    block->position().z() - w)
                 ->apply();
         SQPrimitives::instance()->drawCubeGeometry();
         SQStack::instance()->pop();
