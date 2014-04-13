@@ -18,7 +18,7 @@ SQPuzzleEngine::SQPuzzleEngine(SQPuzzle::SP puzzle, QObject *parent) :
     _perspective3d(NULL),
     _perspectiveSwitcher(NULL),
     _isActive(false),
-    _isCubeLocked(true),
+    _isCubeLocked(false), // TODO: change to true
     _isGesturing(false),
     _rotI(0.0f),
     _rotJ(0.0f),
@@ -79,15 +79,21 @@ void SQPuzzleEngine::applyGesturesToModelView()
                 ->translate(0, 0, -20);
     }
 
+    if (shouldPullViewToAxis())
+    {
+        _rotI = _rotJ = _rotK = 0.0f;
+    }
+    else
+    {
+        _rotI = 1.57f;
+        _rotJ = 1.27f;
+        _rotK = 1.13f;
+    }
+
     SQStack::instance()
             ->rotate(_rotI, QVector3D(1,0,0))
             ->rotate(_rotJ, QVector3D(0,1,0))
             ->rotate(_rotK, QVector3D(0,0,1));
-
-//    _rotI = _rotJ = _rotK = 0.0f;
-    _rotI = 5;
-    _rotJ = 7;
-    _rotK = 3;
 }
 
 void SQPuzzleEngine::pullViewToAxis()
@@ -102,10 +108,11 @@ void SQPuzzleEngine::pullViewToAxis()
     GLfloat mag;
     GLfloat incr = 0.03;
     alreadyUsedDims = 0; // keep track of used dimensions, 1, 2, 4
+    QMatrix4x4 modelView = SQStack::instance()->modelViewMatrix();
     for (int d=0; d<3; d++)
     {
         w = QVector4D();
-//        v = _modelViewMatrix.column(d);
+        v = modelView.column(d);
         a = fabs(v.x());
         b = fabs(v.y());
         c = fabs(v.z());
@@ -126,15 +133,10 @@ void SQPuzzleEngine::pullViewToAxis()
         delta = w - v;
         mag = sqrt(delta[0] * delta[0] + delta[1] * delta[1] + delta[2] * delta[2]);
         if (mag > 0)
-        {
-            if (mag < 0.03)
-            {
-//                _modelViewMatrix.setColumn(d, w);
-//                _puzzle->updateOrientation(_modelViewMatrix);
-            } else
-            {
-//                _modelViewMatrix.setColumn(d, v + delta / mag * incr);
-            }
-        }
+            modelView.setColumn(d,
+                                mag < 0.03
+                                ? w
+                                : v + delta / mag * incr);
     }
+    SQStack::instance()->replace(modelView);
 }

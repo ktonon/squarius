@@ -21,12 +21,15 @@ SQPuzzle::SQPuzzle(SQPuzzle::World world, SQPuzzle::Level level) :
     _colIndex(-1), _rowIndex(-1)
 {
     // TODO: load from file
-    _shape[0] = 5;
-    _shape[1] = 5;
-    _shape[2] = 5;
-
-    _blocks << SQBlock::create(0, 0, 0)
+    _blocks
+            << SQBlock::create(0, 0, 0)
             << SQBlock::create(0, 1, 0)
+            << SQBlock::create(1, 0, 0)
+            << SQBlock::create(1, 1, 0)
+//            << SQBlock::create(0, 0, 1)
+            << SQBlock::create(0, 1, 1)
+            << SQBlock::create(1, 0, 1)
+            << SQBlock::create(1, 1, 1)
             << SQBlock::create(0, 2, 0)
             << SQBlock::create(0, 3, 0)
             << SQBlock::create(0, 4, 0)
@@ -39,7 +42,40 @@ SQPuzzle::SQPuzzle(SQPuzzle::World world, SQPuzzle::Level level) :
             << SQBlock::create(4, 4, 2)
             << SQBlock::create(4, 4, 3)
             << SQBlock::create(4, 4, 4)
+            << SQBlock::create(1, 0, 0)
+            << SQBlock::create(2, 0, 0)
+            << SQBlock::create(3, 0, 0)
+            << SQBlock::create(4, 0, 0)
+            << SQBlock::create(4, 0, 1)
+            << SQBlock::create(4, 0, 2)
+            << SQBlock::create(4, 0, 3)
+            << SQBlock::create(4, 0, 4)
+            << SQBlock::create(5, 5, 5)
+            << SQBlock::create(10, 10, 10)
+            << SQBlock::create(0, 10, 10)
+            << SQBlock::create(10, 0, 10)
+            << SQBlock::create(10, 10, 0)
+            << SQBlock::create(10, 0, 0)
+            << SQBlock::create(0, 0, 10)
+            << SQBlock::create(0, 10, 0)
             ;
+    if (!_blocks.isEmpty())
+    {
+        for (int dim=0; dim<3; dim++)
+        {
+            int minVal = _blocks.first()->at(dim);
+            int maxVal = minVal;
+            foreach (const SQBlock::SP &block, _blocks)
+            {
+                int val = block->at(dim);
+                if (val < minVal) minVal = val;
+                if (val > maxVal) maxVal = val;
+            }
+            _offset[dim] = minVal;
+            _shape[dim] = maxVal - minVal + 1;
+        }
+    }
+    qDebug() << "here";
 }
 
 SQPuzzle::~SQPuzzle()
@@ -48,17 +84,13 @@ SQPuzzle::~SQPuzzle()
 
 void SQPuzzle::renderCells()
 {
-    GLfloat u = _shape[0]/2.0f,
-            v = _shape[1]/2.0f,
-            w = _shape[2]/2.0f;
-
     foreach(SQBlock::SP block, _blocks)
     {
         SQStack::instance()->push();
         SQStack::instance()->translate(
-                    block->position().x() - u,
-                    block->position().y() - v,
-                    block->position().z() - w)
+                    block->position().x() - _offset[0] - (float)_shape[0] / 2.0f + 0.5f,
+                    block->position().y() - _offset[1] - (float)_shape[1] / 2.0f + 0.5f,
+                    block->position().z() - _offset[2] - (float)_shape[2] / 2.0f + 0.5f)
                 ->apply();
         SQPrimitives::instance()->drawCubeGeometry();
         SQStack::instance()->pop();

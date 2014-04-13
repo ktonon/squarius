@@ -41,10 +41,17 @@ void SQPerspective3d::setRatio(GLfloat ratio)
 
 void SQPerspective3d::setShape(int w, int h)
 {
-    float k = _maxDimension;
+    float x = _maxDimension * 0.45f;
+    float y = x;
+    float ratio = (float)w / h;
+    if (ratio > 1)
+        x = y * ratio;
+    else
+        y = x / ratio;
+
     _projectionMatrix.setToIdentity();
-    _projectionMatrix.frustum(-k, k,
-                              -k, k,
+    _projectionMatrix.frustum(-x, x,
+                              -y, y,
                               SQ_NEAR, SQ_FAR);
 //    _projectionMatrix.frustum(-w, w, -h, h, SQ_NEAR, SQ_FAR);
 }

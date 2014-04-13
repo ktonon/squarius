@@ -35,6 +35,16 @@ public:
     /** @name Getters */
     /** @{ */
     QVector3D position() const { return _position; }
+    float at(int dim) const
+    {
+        switch(dim)
+        {
+        case 0: return _position.x();
+        case 1: return _position.y();
+        case 2: return _position.z();
+        default: return 0;
+        }
+    }
     Type type() const { return _type; }
     /** @} */
 

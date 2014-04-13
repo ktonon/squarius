@@ -122,3 +122,10 @@ SQStack *SQStack::rotate(qreal angle, const QVector3D &vector)
                    ));
     return this;
 }
+
+SQStack *SQStack::replace(const QMatrix4x4 &m)
+{
+    _stack.removeLast();
+    _stack << m;
+    return this;
+}

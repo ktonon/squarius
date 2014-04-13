@@ -61,6 +61,7 @@ private:
     SQBlock::List _blocks;
 
     int _shape[3];
+    int _offset[3];
     QVector4D _i, _j, _k;
     QVector4D _origin;
     int _colIndex, _rowIndex;
