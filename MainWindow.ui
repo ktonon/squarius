@@ -17,7 +17,7 @@
    <string>Squarius</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout" stretch="4,1,0">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="4,0">
     <item>
      <widget class="SQEngine" name="widget" native="true">
       <property name="sizePolicy">
@@ -33,9 +33,6 @@
        </size>
       </property>
      </widget>
-    </item>
-    <item>
-     <widget class="QTextBrowser" name="textBrowser"/>
     </item>
     <item>
      <widget class="QPushButton" name="pushButton">

@@ -43,7 +43,7 @@ void SQPerspective2d::setRatio(GLfloat ratio)
 
 void SQPerspective2d::setShape(int w, int h)
 {
-    float x = _maxDimension * 0.8f;
+    float x = _maxDimension * 0.55f;
     float y = x;
     float ratio = (float)w / h;
     if (ratio > 1)

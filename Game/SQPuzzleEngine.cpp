@@ -106,37 +106,52 @@ void SQPuzzleEngine::pullViewToAxis()
     GLubyte useDim;
     QVector4D delta;
     GLfloat mag;
-    GLfloat incr = 0.03;
+    GLfloat incr = 0.3;
     alreadyUsedDims = 0; // keep track of used dimensions, 1, 2, 4
     QMatrix4x4 modelView = SQStack::instance()->modelViewMatrix();
+
+    // The largest absolute component of v (a model view axis vector) is the
+    // vector that is closest to one of the world view axis vectors. First
+    // we sort the dimensions by absolute magnitude.
+    QList<int> dimOrder;
+    float maxMag = 0.0f;
     for (int d=0; d<3; d++)
     {
-        w = QVector4D();
         v = modelView.column(d);
         a = fabs(v.x());
         b = fabs(v.y());
         c = fabs(v.z());
 
+        // Use the next largest available dimension
         if (a > b && a > c) useDim = alreadyUsedDims & DIM_A ? (b > c ? (alreadyUsedDims & DIM_B ? 2 : 1) : (alreadyUsedDims & DIM_C ? 1 : 2)) : 0;
         else if (b > a && b > c) useDim = alreadyUsedDims & DIM_B ? (a > c ? (alreadyUsedDims & DIM_A ? 2 : 0) : (alreadyUsedDims & DIM_C ? 0 : 2)) : 1;
         else if (c > a && c > b) useDim = alreadyUsedDims & DIM_C ? (a > b ? (alreadyUsedDims & DIM_A ? 1 : 0) : (alreadyUsedDims & DIM_B ? 0 : 1)) : 2;
 
+        // Flag the dimension as being used
         alreadyUsedDims |= (GLubyte)pow(2, useDim);
 
-        switch(useDim)
-        {
-        case 0: w.setX(v.x() > 0 ? 1 : -1); break;
-        case 1: w.setY(v.y() > 0 ? 1 : -1); break;
-        case 2: w.setZ(v.z() > 0 ? 1 : -1); break;
-        }
+        dimOrder << useDim;
+        w[useDim] = v[useDim] > 0 ? 1 : -1;
+        delta = w - v;
+        mag = sqrt(delta[0] * delta[0] + delta[1] * delta[1] + delta[2] * delta[2]);
+        if (mag > maxMag) maxMag = mag;
+    }
+
+    for (int d=0; d<3; d++)
+    {
+        w = QVector4D(); // An axis aligned unit vector (i, j, or k)
+        v = modelView.column(d);
+        useDim = dimOrder.at(d);
+
+        w[useDim] = v[useDim] > 0 ? 1 : -1;
 
         delta = w - v;
         mag = sqrt(delta[0] * delta[0] + delta[1] * delta[1] + delta[2] * delta[2]);
         if (mag > 0)
             modelView.setColumn(d,
-                                mag < 0.03
+                                maxMag <= incr
                                 ? w
-                                : v + delta / mag * incr);
+                                : v + delta / mag * incr * mag / maxMag);
     }
     SQStack::instance()->replace(modelView);
 }
