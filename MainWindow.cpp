@@ -14,6 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->engine->grabGesture(Qt::PinchGesture);
+    ui->engine->grabGesture(Qt::TapGesture);
 }
 
 MainWindow::~MainWindow()

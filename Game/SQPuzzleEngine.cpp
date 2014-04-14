@@ -69,6 +69,24 @@ void SQPuzzleEngine::updateModelView()
     if (shouldPullViewToAxis()) pullViewToAxis();
 }
 
+void SQPuzzleEngine::pinchGesture(QPinchGesture *gesture)
+{
+    if (gesture->state() == Qt::GestureFinished)
+    {
+        if ((_perspective == _perspective2d && gesture->scaleFactor() < 1) ||
+            (_perspective == _perspective3d && gesture->scaleFactor() > 1))
+            perspectiveSwitchBegin();
+    }
+}
+
+void SQPuzzleEngine::tapGesture(QTapGesture *gesture)
+{
+    if (gesture->state() == Qt::GestureFinished)
+    {
+
+    }
+}
+
 void SQPuzzleEngine::applyGesturesToModelView()
 {
     if (_isFirstRender)

@@ -7,8 +7,11 @@
  */
 
 #pragma once
-#include <QtCore>
 #include "SQOpenGL.h"
+#include <QtCore>
+#include <QtGui>
+#include <QPinchGesture>
+#include <QTapGesture>
 class SQPuzzleEngine;
 
 
@@ -20,6 +23,9 @@ public:
 
     explicit SQEngine(QWidget *parent = 0);
     virtual ~SQEngine();
+
+    virtual bool event(QEvent *event);
+    bool gestureEvent(QGestureEvent *event);
 
     virtual void initializeGL();
     virtual void paintGL();

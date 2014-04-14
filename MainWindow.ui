@@ -19,7 +19,7 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout" stretch="4,0">
     <item>
-     <widget class="SQEngine" name="widget" native="true">
+     <widget class="SQEngine" name="engine" native="true">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>0</horstretch>
@@ -62,7 +62,7 @@
   <connection>
    <sender>pushButton</sender>
    <signal>clicked()</signal>
-   <receiver>widget</receiver>
+   <receiver>engine</receiver>
    <slot>togglePerspective()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -76,7 +76,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>widget</sender>
+   <sender>engine</sender>
    <signal>perspectiveChanged()</signal>
    <receiver>MainWindow</receiver>
    <slot>engineChangedState()</slot>

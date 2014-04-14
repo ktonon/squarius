@@ -33,6 +33,22 @@ SQEngine::~SQEngine()
     deleteTexture(_texture);
 }
 
+bool SQEngine::event(QEvent *event)
+{
+    if (event->type() == QEvent::Gesture)
+        return gestureEvent(static_cast<QGestureEvent*>(event));
+    return QWidget::event(event);
+}
+
+bool SQEngine::gestureEvent(QGestureEvent *event)
+{
+    if (QGesture* pinch = event->gesture(Qt::PinchGesture))
+        _puzzleEngine->pinchGesture(static_cast<QPinchGesture*>(pinch));
+    if (QGesture* tap = event->gesture(Qt::TapGesture))
+        _puzzleEngine->tapGesture(static_cast<QTapGesture*>(tap));
+    return true;
+}
+
 void SQEngine::initializeGL()
 {
     initializeGLFunctions();

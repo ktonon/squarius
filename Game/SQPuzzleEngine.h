@@ -88,6 +88,9 @@ public slots:
 
     void updateModelView();
 
+    void pinchGesture(QPinchGesture *gesture);
+    void tapGesture(QTapGesture *gesture);
+
     void perspectiveSwitchBegin();
 
     void perspectiveSwitchEnd();

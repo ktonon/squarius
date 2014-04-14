@@ -9,8 +9,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
 #include <QMatrix4x4>
+#include <QMainWindow>
 
 namespace Ui {
 class MainWindow;
