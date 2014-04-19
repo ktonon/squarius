@@ -90,7 +90,7 @@ void SQPuzzle::renderCells()
         SQStack::instance()->translate(
                     block->position().x() - _offset[0] - (float)_shape[0] / 2.0f + 0.5f,
                     block->position().y() - _offset[1] - (float)_shape[1] / 2.0f + 0.5f,
-                    block->position().z() - _offset[2] - (float)_shape[2] / 2.0f + 0.5f)
+                    block->position().z() - _offset[2] - (float)_shape[2] / 2.0f + 0.5f, true)
                 ->apply();
         SQPrimitives::instance()->drawCubeGeometry();
         SQStack::instance()->pop();

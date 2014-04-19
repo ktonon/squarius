@@ -9,6 +9,7 @@
 #ifndef SQPUZZLEENGINE_H
 #define SQPUZZLEENGINE_H
 
+#include "Gestures/SQPanGestureRecognizer.h"
 #include "IPerspectiveProvider.h"
 #include "SQPerspectives.h"
 #include "SQPuzzle.h"
@@ -29,6 +30,13 @@ public:
     bool isPerspectiveSwitching() const { return _perspective != NULL && _perspective == _perspectiveSwitcher; }
     bool isPerspective2d() const { return _perspective == _perspective2d; }
     bool isPerspective3d() const { return _perspective == _perspective3d; }
+    /** @} */
+
+    /** @name Gesture handlers */
+    /** @{ */
+    bool panGesture(SQPanGesture *gesture);
+    bool pinchGesture(QPinchGesture *gesture);
+    bool tapGesture(QTapGesture *gesture);
     /** @} */
 
     /** @name IPerspectiveProvider methods */
@@ -87,9 +95,6 @@ public slots:
     }
 
     void updateModelView();
-
-    void pinchGesture(QPinchGesture *gesture);
-    void tapGesture(QTapGesture *gesture);
 
     void perspectiveSwitchBegin();
 

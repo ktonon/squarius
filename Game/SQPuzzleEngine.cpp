@@ -9,6 +9,7 @@
 #include "SQPuzzleEngine.h"
 #include "Utilities/Memory.h"
 #include "Utilities/SQStack.h"
+#include <math.h>
 
 SQPuzzleEngine::SQPuzzleEngine(SQPuzzle::SP puzzle, QObject *parent) :
     QObject(parent),
@@ -18,7 +19,7 @@ SQPuzzleEngine::SQPuzzleEngine(SQPuzzle::SP puzzle, QObject *parent) :
     _perspective3d(NULL),
     _perspectiveSwitcher(NULL),
     _isActive(false),
-    _isCubeLocked(false), // TODO: change to true
+    _isCubeLocked(true),
     _isGesturing(false),
     _rotI(0.0f),
     _rotJ(0.0f),
@@ -34,6 +35,52 @@ SQPuzzleEngine::SQPuzzleEngine(SQPuzzle::SP puzzle, QObject *parent) :
 
 SQPuzzleEngine::~SQPuzzleEngine()
 {
+}
+
+bool SQPuzzleEngine::panGesture(SQPanGesture *gesture)
+{
+    static const float bound = 10.0f;
+    if (gesture->state() == Qt::GestureStarted)
+    {
+        qDebug() << "started";
+        _isGesturing = true;
+    }
+    if (gesture->state() == Qt::GestureFinished || gesture->state() == Qt::GestureCanceled)
+    {
+        qDebug() << "finished";
+        _isGesturing = false;
+    }
+    if (_perspective == _perspective3d)
+    {
+        qDebug() << QString("%1,%2")
+                    .arg(gesture->delta().x())
+                    .arg(gesture->delta().y())
+                    ;
+
+        _rotI = fmaxf(fminf(gesture->delta().y(), bound), -bound);
+        _rotJ = fmaxf(fminf(gesture->delta().x(), bound), -bound);
+    }
+    return true;
+}
+
+bool SQPuzzleEngine::pinchGesture(QPinchGesture *gesture)
+{
+    if (gesture->state() == Qt::GestureUpdated && _perspective == _perspective3d)
+    {
+//        _rotK = (gesture->lastRotationAngle() - gesture->rotationAngle()) * 8;
+    }
+    if (gesture->state() == Qt::GestureFinished)
+    {
+//        if ((_perspective == _perspective2d && gesture->scaleFactor() < 1) ||
+//            (_perspective == _perspective3d && gesture->scaleFactor() > 1))
+//            perspectiveSwitchBegin();
+    }
+    return true;
+}
+
+bool SQPuzzleEngine::tapGesture(QTapGesture *)
+{
+    return false;
 }
 
 void SQPuzzleEngine::renderModel()
@@ -69,49 +116,27 @@ void SQPuzzleEngine::updateModelView()
     if (shouldPullViewToAxis()) pullViewToAxis();
 }
 
-void SQPuzzleEngine::pinchGesture(QPinchGesture *gesture)
-{
-    if (gesture->state() == Qt::GestureFinished)
-    {
-        if ((_perspective == _perspective2d && gesture->scaleFactor() < 1) ||
-            (_perspective == _perspective3d && gesture->scaleFactor() > 1))
-            perspectiveSwitchBegin();
-    }
-}
-
-void SQPuzzleEngine::tapGesture(QTapGesture *gesture)
-{
-    if (gesture->state() == Qt::GestureFinished)
-    {
-
-    }
-}
-
 void SQPuzzleEngine::applyGesturesToModelView()
 {
+    static const float DISTANCE = 20;
     if (_isFirstRender)
     {
         _isFirstRender = false;
         SQStack::instance()
                 ->loadIdentity()
-                ->translate(0, 0, -20);
+                ->translate(0, 0, - DISTANCE);
     }
 
     if (shouldPullViewToAxis())
-    {
         _rotI = _rotJ = _rotK = 0.0f;
-    }
-    else
-    {
-        _rotI = 1.57f;
-        _rotJ = 1.27f;
-        _rotK = 1.13f;
-    }
 
     SQStack::instance()
+            ->translate(0, 0, DISTANCE)
             ->rotate(_rotI, QVector3D(1,0,0))
             ->rotate(_rotJ, QVector3D(0,1,0))
-            ->rotate(_rotK, QVector3D(0,0,1));
+            ->rotate(_rotK, QVector3D(0,0,1))
+            ->translate(0, 0, - DISTANCE)
+            ;
 }
 
 void SQPuzzleEngine::pullViewToAxis()
@@ -124,7 +149,7 @@ void SQPuzzleEngine::pullViewToAxis()
     GLubyte useDim;
     QVector4D delta;
     GLfloat mag;
-    GLfloat incr = 0.3;
+    GLfloat incr = _perspective == _perspective3d ? 0.3 : 0.3;
     alreadyUsedDims = 0; // keep track of used dimensions, 1, 2, 4
     QMatrix4x4 modelView = SQStack::instance()->modelViewMatrix();
 

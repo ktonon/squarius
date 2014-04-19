@@ -11,6 +11,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = Squarius
 TEMPLATE = app
 
+QMAKE_INFO_PLIST = Info.plist
+
 INCLUDEPATH += .
 
 SOURCES += main.cpp\
@@ -25,7 +27,8 @@ SOURCES += main.cpp\
     Utilities/Matrix.cpp \
     Game/SQBlock.cpp \
     Utilities/SQPrimitives.cpp \
-    Utilities/SQStack.cpp
+    Utilities/SQStack.cpp \
+    Gestures/SQPanGestureRecognizer.cpp
 
 HEADERS  += MainWindow.h \
     SQEngine.h \
@@ -43,7 +46,8 @@ HEADERS  += MainWindow.h \
     Utilities/SQPrimitives.h \
     SQOpenGL.h \
     Utilities/SQStack.h \
-    IPerspectiveProvider.h
+    IPerspectiveProvider.h \
+    Gestures/SQPanGestureRecognizer.h
 
 FORMS    += MainWindow.ui
 

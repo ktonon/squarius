@@ -79,14 +79,15 @@ SQStack *SQStack::loadIdentity()
     return this;
 }
 
-SQStack *SQStack::translate(qreal x, qreal y, qreal z)
+SQStack *SQStack::translate(qreal x, qreal y, qreal z, bool reverse)
 {
     Q_ASSERT(!_stack.isEmpty());
     QMatrix4x4 m = _stack.takeLast();
-    _stack << (m * QMatrix4x4(1, 0, 0, x,
+    QMatrix4x4 t = QMatrix4x4(1, 0, 0, x,
                               0, 1, 0, y,
                               0, 0, 1, z,
-                              0, 0, 0, 1));
+                              0, 0, 0, 1);
+    _stack << (reverse ? m * t : t * m);
     return this;
 }
 
@@ -102,24 +103,25 @@ SQStack *SQStack::rotate(qreal angle, const QVector3D &vector)
     qreal ct = cos(angle * PI / 180.0);
     qreal st = sin(angle * PI / 180.0);
     QMatrix4x4 m = _stack.takeLast();
-    _stack << (m * QMatrix4x4(
-                   u2 + (v2 + w2)*ct,
-                   u*v*(1 - ct) - w*st,
-                   u*w*(1 - ct) + v*st,
-                   0,
+    QMatrix4x4 r = QMatrix4x4(
+                u2 + (v2 + w2)*ct,
+                u*v*(1 - ct) - w*st,
+                u*w*(1 - ct) + v*st,
+                0,
 
-                   u*v*(1 - ct) + w*st,
-                   v2 + (u2 + w2)*ct,
-                   v*w*(1 - ct) - u*st,
-                   0,
+                u*v*(1 - ct) + w*st,
+                v2 + (u2 + w2)*ct,
+                v*w*(1 - ct) - u*st,
+                0,
 
-                   u*w*(1 - ct) - v*st,
-                   v*w*(1 - ct) + u*st,
-                   w2 + (u2 + v2)*ct,
-                   0,
+                u*w*(1 - ct) - v*st,
+                v*w*(1 - ct) + u*st,
+                w2 + (u2 + v2)*ct,
+                0,
 
-                   0, 0, 0, 1
-                   ));
+                0, 0, 0, 1
+                );
+    _stack << (r * m);
     return this;
 }
 

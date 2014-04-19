@@ -35,7 +35,7 @@ public:
     SQStack *push();
     SQStack *pop();
     SQStack *loadIdentity();
-    SQStack *translate(qreal x, qreal y, qreal z);
+    SQStack *translate(qreal x, qreal y, qreal z, bool reverse=false);
     SQStack *rotate(qreal angle, const QVector3D &v);
     SQStack *replace(const QMatrix4x4 &m);
 

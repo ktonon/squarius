@@ -23,6 +23,13 @@ SQEngine::SQEngine(QWidget *parent) :
     _height(-1),
     _width(-1)
 {
+    SQPanGestureRecognizer::registerMe();
+
+    grabGesture(SQPanGestureRecognizer::recognizerId());
+    grabGesture(Qt::PinchGesture);
+//    grabGesture(Qt::SwipeGesture);
+//    grabGesture(Qt::TapGesture);
+
     // TODO: replace this with real level loader
     _puzzleEngine = new SQPuzzleEngine(SQPuzzle::load(0, 0), this);
     connect(_puzzleEngine, SIGNAL(perspectedSwitchEnded()), SIGNAL(perspectiveChanged()));
@@ -42,11 +49,16 @@ bool SQEngine::event(QEvent *event)
 
 bool SQEngine::gestureEvent(QGestureEvent *event)
 {
-    if (QGesture* pinch = event->gesture(Qt::PinchGesture))
-        _puzzleEngine->pinchGesture(static_cast<QPinchGesture*>(pinch));
-    if (QGesture* tap = event->gesture(Qt::TapGesture))
-        _puzzleEngine->tapGesture(static_cast<QTapGesture*>(tap));
-    return true;
+    if (QGesture *pan = event->gesture(SQPanGestureRecognizer::recognizerId()))
+        return _puzzleEngine->panGesture(static_cast<SQPanGesture*>(pan));
+    if (QGesture *pinch = event->gesture(Qt::PinchGesture))
+        return _puzzleEngine->pinchGesture(static_cast<QPinchGesture*>(pinch));
+    if (QGesture *swipe = event->gesture(Qt::SwipeGesture))
+        qDebug() << "swipe";
+    if (QGesture *tap = event->gesture(Qt::TapGesture))
+        qDebug() << "tap";
+//        return _puzzleEngine->tapGesture(static_cast<QTapGesture*>(tap));
+    return false;
 }
 
 void SQEngine::initializeGL()

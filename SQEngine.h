@@ -8,8 +8,10 @@
 
 #pragma once
 #include "SQOpenGL.h"
+#include "Gestures/SQPanGestureRecognizer.h"
 #include <QtCore>
 #include <QtGui>
+#include <QPanGesture>
 #include <QPinchGesture>
 #include <QTapGesture>
 class SQPuzzleEngine;
