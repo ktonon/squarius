@@ -39,18 +39,8 @@ QMatrix4x4 SQPerspectiveSwitcher::projectionMatrix()
     ratio = (1.0f - cosf(theta)) / 2.0f;
     QMatrix4x4 a = _startPerspective->projectionMatrix();
     QMatrix4x4 b = _endPerspective->projectionMatrix();
-//    for (int i = 0; i < SQ_MATRIX_SIZE; i++)
-//    {
-        _projectionMatrix = a + (b - a) * ratio;
-//        _projectionMatrix[i] = a[i] + (b[i] - a[i]) * ratio;
-//    }
-//    _projectionMatrix = _startPerspective->projectionMatrix();
+    _projectionMatrix = a + (b - a) * ratio;
     return _projectionMatrix;
-}
-
-void SQPerspectiveSwitcher::setRatio(GLfloat ratio)
-{
-    _ratio = ratio;
 }
 
 void SQPerspectiveSwitcher::setShape(int w, int h)

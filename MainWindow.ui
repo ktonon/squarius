@@ -16,8 +16,33 @@
   <property name="windowTitle">
    <string>Squarius</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">#centralWidget {
+	background-color: black;
+}
+#toggleButton {
+	border-radius: 5px;
+	border: 1px solid #69c;
+	background-color: #036;
+	color: #bdf;
+	margin: 5px;
+	padding: 10px;
+}</string>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout" stretch="4,0">
+    <property name="leftMargin">
+     <number>2</number>
+    </property>
+    <property name="topMargin">
+     <number>2</number>
+    </property>
+    <property name="rightMargin">
+     <number>2</number>
+    </property>
+    <property name="bottomMargin">
+     <number>2</number>
+    </property>
     <item>
      <widget class="SQEngine" name="engine" native="true">
       <property name="sizePolicy">
@@ -35,7 +60,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="toggleButton">
       <property name="text">
        <string>&amp;Toggle</string>
       </property>
@@ -60,7 +85,7 @@
  <resources/>
  <connections>
   <connection>
-   <sender>pushButton</sender>
+   <sender>toggleButton</sender>
    <signal>clicked()</signal>
    <receiver>engine</receiver>
    <slot>togglePerspective()</slot>

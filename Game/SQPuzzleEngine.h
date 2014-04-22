@@ -78,14 +78,6 @@ public slots:
         }
     }
 
-    void setRatio(GLfloat ratio)
-    {
-        _perspective2d->setRatio(ratio);
-        _perspective3d->setRatio(ratio);
-        if (_perspectiveSwitcher != NULL)
-            _perspectiveSwitcher->setRatio(ratio);
-    }
-
     void setShape(int w, int h)
     {
         _perspective2d->setShape(w, h);

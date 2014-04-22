@@ -152,15 +152,9 @@ void SQEngine::paintGL()
 
 void SQEngine::resizeGL(int w, int h)
 {
-    // Set OpenGL viewport to cover whole widget
     glViewport(0, 0, w, h);
     _width = w;
     _height = h;
-
-    // Calculate aspect ratio
-    qreal aspect = qreal(w) / qreal(h ? h : 1);
-
-//    _puzzleEngine->setRatio(aspect);
     _puzzleEngine->setShape(w, h);
 }
 

@@ -36,13 +36,6 @@ public:
     int maxDimension() const { return _maxDimension; }
     /** @} */
 
-
-    /**
-     * @brief Creates a projection matrix using the new ratio.
-     * @param ratio
-     */
-    virtual void setRatio(GLfloat ratio) = 0;
-
     virtual void setShape(int w, int h) = 0;
 
 public slots:
