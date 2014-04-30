@@ -63,7 +63,7 @@ public:
 
     QString toString() const
     {
-        return QString("Block with type %2")
+        return QString("Block with type %1")
                 .arg(typeToString(_type));
     }
 

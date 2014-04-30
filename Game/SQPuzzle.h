@@ -10,6 +10,8 @@
 #include <QtCore>
 #include "SQOpenGL.h"
 #include "SQBlock.h"
+#include "SQSwarm.h"
+#include "SQWave.h"
 #include <QGLShaderProgram>
 
 class SQPuzzle : public QObject
@@ -81,6 +83,8 @@ private:
 
     Id _id;
     SQBlock::List _blocks;
+    SQSwarm::Hash _swarms;
+    SQWave::List _waves;
 
     int _shape[3];
     int _offset[3];

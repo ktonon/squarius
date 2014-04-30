@@ -20,8 +20,9 @@ SQPuzzle::SQPuzzle(SQPuzzle::World world, SQPuzzle::Level level) :
     _origin(),
     _colIndex(-1), _rowIndex(-1)
 {
-    qDebug() << _id.filename();
-
+    QDomNodeList nodes;
+    int i;
+    int n;
     QFile file(_id.path());
     if (file.exists())
     {
@@ -30,8 +31,8 @@ SQPuzzle::SQPuzzle(SQPuzzle::World world, SQPuzzle::Level level) :
         {
             foreach (SQBlock::Type type, SQBlock::types())
             {
-                QDomNodeList nodes = doc.elementsByTagName(SQBlock::typeToString(type));
-                for (int i=0, n=nodes.count(); i<n; i++)
+                nodes = doc.elementsByTagName(SQBlock::typeToString(type));
+                for (i=0, n=nodes.count(); i<n; i++)
                 {
                     QDomElement elem = nodes.at(i).toElement();
                     QStringList pos = elem.attribute("pos").split(' ');
@@ -41,6 +42,23 @@ SQPuzzle::SQPuzzle(SQPuzzle::World world, SQPuzzle::Level level) :
                                                type);
                 }
             }
+            nodes = doc.elementsByTagName("swarm");
+            for (i=0, n=nodes.count(); i<n; i++)
+            {
+                QDomElement elem = nodes.at(i).toElement();
+                SQSwarm::SP swarm = SQSwarm::create(elem);
+                _swarms[swarm->id()] = swarm;
+                qDebug() << swarm->toString();
+            }
+            nodes = doc.elementsByTagName("wave");
+            for (i=0, n=nodes.count(); i<n; i++)
+            {
+                QDomElement elem = nodes.at(i).toElement();
+                _waves << SQWave::create(elem);
+            }
+            qSort(_waves);
+            foreach (const SQWave::SP &wave, _waves)
+                qDebug() << wave->toString();
         }
     }
     calcShapeOffset();

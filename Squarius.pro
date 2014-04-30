@@ -28,7 +28,11 @@ SOURCES += main.cpp\
     Game/SQBlock.cpp \
     Utilities/SQPrimitives.cpp \
     Utilities/SQStack.cpp \
-    Gestures/SQPanGestureRecognizer.cpp
+    Gestures/SQPanGestureRecognizer.cpp \
+    Game/SQWave.cpp \
+    Game/SQSwarm.cpp \
+    Game/SQTower.cpp \
+    Game/SQCrawler.cpp
 
 HEADERS  += MainWindow.h \
     SQEngine.h \
@@ -47,13 +51,20 @@ HEADERS  += MainWindow.h \
     SQOpenGL.h \
     Utilities/SQStack.h \
     IPerspectiveProvider.h \
-    Gestures/SQPanGestureRecognizer.h
+    Gestures/SQPanGestureRecognizer.h \
+    Game/SQWave.h \
+    Game/SQSwarm.h \
+    Game/SQTower.h \
+    Game/SQCrawler.h
 
 FORMS    += MainWindow.ui
 
 OTHER_FILES += \
     fshader.fsh \
-    vshader.vsh
+    vshader.vsh \
+    puzzles/0000000000000000-00.xml \
+    puzzles/0000000000000000-01.xml \
+    puzzles/0000000000000000-02.xml
 
 RESOURCES += \
     shaders.qrc \
