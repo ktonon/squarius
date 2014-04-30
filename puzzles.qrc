@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>puzzles/0000000000000000-00.xml</file>
+        <file>puzzles/0000000000000000-01.xml</file>
+        <file>puzzles/0000000000000000-02.xml</file>
+    </qresource>
+</RCC>

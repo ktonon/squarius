@@ -21,7 +21,7 @@ public:
 
     virtual ~SQPrimitives();
 
-    void drawCubeGeometry();
+    void drawCubeGeometry(const QVector4D &color);
 
 private:
     static SQPrimitives *_instance;

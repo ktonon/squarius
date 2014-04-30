@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl
+QT       += core gui opengl xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -57,4 +57,5 @@ OTHER_FILES += \
 
 RESOURCES += \
     shaders.qrc \
-    textures.qrc
+    textures.qrc \
+    puzzles.qrc

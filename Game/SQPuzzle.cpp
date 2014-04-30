@@ -9,56 +9,45 @@
 #include "SQPuzzle.h"
 #include "Utilities/SQPrimitives.h"
 #include "Utilities/SQStack.h"
+#include <QtXml>
 
 SQPuzzle::SQPuzzle(SQPuzzle::World world, SQPuzzle::Level level) :
     QObject(0),
-    _world(world),
-    _level(level),
+    _id(world, level),
     _blocks(),
     _shape(),
     _i(), _j(), _k(),
     _origin(),
     _colIndex(-1), _rowIndex(-1)
 {
-    // TODO: load from file
-    _blocks
-            << SQBlock::create(0, 0, 0)
-            << SQBlock::create(0, 1, 0)
-            << SQBlock::create(1, 0, 0)
-            << SQBlock::create(1, 1, 0)
-//            << SQBlock::create(0, 0, 1)
-            << SQBlock::create(0, 1, 1)
-            << SQBlock::create(1, 0, 1)
-            << SQBlock::create(1, 1, 1)
-            << SQBlock::create(0, 2, 0)
-            << SQBlock::create(0, 3, 0)
-            << SQBlock::create(0, 4, 0)
-            << SQBlock::create(0, 4, 0)
-            << SQBlock::create(1, 4, 0)
-            << SQBlock::create(2, 4, 0)
-            << SQBlock::create(3, 4, 0)
-            << SQBlock::create(4, 4, 0)
-            << SQBlock::create(4, 4, 1)
-//            << SQBlock::create(4, 4, 2)
-//            << SQBlock::create(4, 4, 3)
-//            << SQBlock::create(4, 4, 4)
-            << SQBlock::create(1, 0, 0)
-            << SQBlock::create(2, 0, 0)
-            << SQBlock::create(3, 0, 0)
-            << SQBlock::create(4, 0, 0)
-            << SQBlock::create(4, 0, 1)
-//            << SQBlock::create(4, 0, 2)
-//            << SQBlock::create(4, 0, 3)
-//            << SQBlock::create(4, 0, 4)
-//            << SQBlock::create(5, 5, 5)
-//            << SQBlock::create(10, 10, 10)
-//            << SQBlock::create(0, 10, 10)
-//            << SQBlock::create(10, 0, 10)
-//            << SQBlock::create(10, 10, 0)
-            << SQBlock::create(10, 0, 0)
-//            << SQBlock::create(0, 0, 10)
-//            << SQBlock::create(0, 10, 0)
-            ;
+    qDebug() << _id.filename();
+
+    QFile file(_id.path());
+    if (file.exists())
+    {
+        QDomDocument doc;
+        if (doc.setContent(&file))
+        {
+            foreach (SQBlock::Type type, SQBlock::types())
+            {
+                QDomNodeList nodes = doc.elementsByTagName(SQBlock::typeToString(type));
+                for (int i=0, n=nodes.count(); i<n; i++)
+                {
+                    QDomElement elem = nodes.at(i).toElement();
+                    QStringList pos = elem.attribute("pos").split(' ');
+                    _blocks << SQBlock::create(pos.at(0).toInt(),
+                                               pos.at(1).toInt(),
+                                               pos.at(2).toInt(),
+                                               type);
+                }
+            }
+        }
+    }
+    calcShapeOffset();
+}
+
+void SQPuzzle::calcShapeOffset()
+{
     if (!_blocks.isEmpty())
     {
         for (int dim=0; dim<3; dim++)
@@ -75,7 +64,6 @@ SQPuzzle::SQPuzzle(SQPuzzle::World world, SQPuzzle::Level level) :
             _shape[dim] = maxVal - minVal + 1;
         }
     }
-    qDebug() << "here";
 }
 
 SQPuzzle::~SQPuzzle()
@@ -92,7 +80,7 @@ void SQPuzzle::renderCells()
                     block->position().y() - _offset[1] - (float)_shape[1] / 2.0f + 0.5f,
                     block->position().z() - _offset[2] - (float)_shape[2] / 2.0f + 0.5f, true)
                 ->apply();
-        SQPrimitives::instance()->drawCubeGeometry();
+        SQPrimitives::instance()->drawCubeGeometry(block->color());
         SQStack::instance()->pop();
     }
 }

@@ -31,7 +31,7 @@ SQEngine::SQEngine(QWidget *parent) :
 //    grabGesture(Qt::TapGesture);
 
     // TODO: replace this with real level loader
-    _puzzleEngine = new SQPuzzleEngine(SQPuzzle::load(0, 0), this);
+    _puzzleEngine = new SQPuzzleEngine(SQPuzzle::load(0, 2), this);
     connect(_puzzleEngine, SIGNAL(perspectedSwitchEnded()), SIGNAL(perspectiveChanged()));
 }
 
@@ -70,6 +70,10 @@ void SQEngine::initializeGL()
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
+
+//    glEnable(GL_BLEND);
+//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//    glDepthMask(false);
 
     SQStack::instance()->init(&_shaderProgram, _puzzleEngine);
     SQPrimitives::instance()->init(&_shaderProgram);

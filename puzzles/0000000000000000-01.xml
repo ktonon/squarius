@@ -1,0 +1,36 @@
+<puzzle>
+  <cell pos="0 0 0" />
+  <cell pos="0 1 0" />
+  <cell pos="1 0 0" />
+  <cell pos="1 1 0" />
+  <cell pos="0 1 1" />
+  <cell pos="1 0 1" />
+  <cell pos="1 1 1" />
+  <cell pos="0 2 0" />
+  <cell pos="0 3 0" />
+  <cell pos="0 4 0" />
+  <cell pos="0 4 0" />
+  <cell pos="1 4 0" />
+  <cell pos="2 4 0" />
+  <cell pos="3 4 0" />
+  <cell pos="4 4 0" />
+  <cell pos="4 4 1" />
+  <cell pos="4 4 2" />
+  <cell pos="4 4 3" />
+  <cell pos="4 4 4" />
+  <cell pos="1 0 0" />
+  <cell pos="2 0 0" />
+  <cell pos="3 0 0" />
+  <cell pos="4 0 0" />
+  <cell pos="4 0 1" />
+  <cell pos="4 0 2" />
+  <cell pos="4 0 3" />
+  <cell pos="4 0 4" />
+  <cell pos="4 5 5" />
+  <cell pos="0 7 7" />
+  <cell pos="7 0 7" />
+  <cell pos="7 7 0" />
+  <cell pos="7 0 0" />
+  <cell pos="0 0 7" />
+  <cell pos="0 7 0" />
+</puzzle>

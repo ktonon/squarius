@@ -117,7 +117,7 @@ void SQPrimitives::initCubeGeometry()
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, 34 * sizeof(GLushort), indices, GL_STATIC_DRAW);
 }
 
-void SQPrimitives::drawCubeGeometry()
+void SQPrimitives::drawCubeGeometry(const QVector4D &color)
 {
     // Tell OpenGL which VBOs to use
     glBindBuffer(GL_ARRAY_BUFFER, _vboIds[0]);
@@ -138,6 +138,9 @@ void SQPrimitives::drawCubeGeometry()
     int texcoordLocation = _program->attributeLocation("a_texcoord");
     _program->enableAttributeArray(texcoordLocation);
     glVertexAttribPointer(texcoordLocation, 2, GL_FLOAT, GL_FALSE, sizeof(VertexData), (const void *)offset);
+
+    int colorLocation = _program->attributeLocation("a_color");
+    glVertexAttrib4f(colorLocation, color.x(), color.y(), color.z(), color.w());
 
     // Draw cube geometry using indices from VBO 1
     glDrawElements(GL_TRIANGLE_STRIP, 34, GL_UNSIGNED_SHORT, 0);
