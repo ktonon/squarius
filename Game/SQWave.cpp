@@ -17,6 +17,7 @@
 SQWave::SQWave(const QDomElement &elem) :
     QObject(0),
     _swarmId(elem.attribute("swarmId").toInt()),
+    _sourceId(elem.attribute("sourceId").toInt()),
     _strength(elem.attribute("strength").toFloat()),
     _time(elem.attribute("time").toFloat() * 1000)
 {

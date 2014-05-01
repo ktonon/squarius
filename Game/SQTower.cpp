@@ -14,7 +14,18 @@
 
 #include "SQTower.h"
 
-SQTower::SQTower(QObject *parent) :
-    QObject(parent)
+SQTower::SQTower(const QDomElement &elem, Type type) :
+    QObject(0),
+    _type(type),
+    _cost(elem.attribute("cost").toFloat())
 {
+}
+
+SQTower::~SQTower()
+{
+}
+
+bool operator<(const SQTower::SP &a, const SQTower::SP &b)
+{
+    return ((int)a->type()) < ((int)b->type());
 }

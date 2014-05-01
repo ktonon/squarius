@@ -15,6 +15,9 @@ SQPuzzle::SQPuzzle(SQPuzzle::World world, SQPuzzle::Level level) :
     QObject(0),
     _id(world, level),
     _blocks(),
+    _swarms(),
+    _waves(),
+    _towers(),
     _shape(),
     _i(), _j(), _k(),
     _origin(),
@@ -59,6 +62,19 @@ SQPuzzle::SQPuzzle(SQPuzzle::World world, SQPuzzle::Level level) :
             qSort(_waves);
             foreach (const SQWave::SP &wave, _waves)
                 qDebug() << wave->toString();
+
+            foreach (SQTower::Type type, SQTower::types())
+            {
+                nodes = doc.elementsByTagName(SQTower::typeToString(type));
+                if (nodes.count() > 0)
+                {
+                    QDomElement elem = nodes.at(0).toElement();
+                    SQTower::SP tower = SQTower::create(elem, type);
+                    _towers[tower->type()] = tower;
+                }
+            }
+            foreach (const SQTower::SP &tower, towers())
+                qDebug() << tower->toString();
         }
     }
     calcShapeOffset();

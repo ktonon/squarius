@@ -38,8 +38,9 @@ public:
 
     QString toString() const
     {
-        return QString("wave(%1) x %2 at %3")
+        return QString("wave(swarmId=%1, sourceId=%2) x %3 at %4")
                 .arg(_swarmId)
+                .arg(_sourceId)
                 .arg(_strength)
                 .arg(_time);
     }
@@ -52,6 +53,7 @@ private:
     explicit SQWave(const QDomElement &elem);
 
     int _swarmId;
+    int _sourceId;
     float _strength;
     qint64 _time;
 };

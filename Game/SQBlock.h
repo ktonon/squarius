@@ -10,6 +10,7 @@
 #define SQBLOCK_H
 
 #include <QtCore>
+#include <QtXml>
 #include <QVector3D>
 #include <QVector4D>
 #include <math.h>

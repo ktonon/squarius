@@ -15,7 +15,8 @@
 #ifndef SQTOWER_H
 #define SQTOWER_H
 
-#include <QObject>
+#include <QtCore>
+#include <QtXml>
 
 class SQTower : public QObject
 {
@@ -23,20 +24,68 @@ class SQTower : public QObject
 public:
     enum Type
     {
-        Blaster,
+        Blaster = 0,
         Thumper,
         Laser,
         Missile,
         Shock,
-        Portal
+        Portal,
+        Undefined
     };
 
-    explicit SQTower(QObject *parent = 0);
+    static QList<Type> types()
+    {
+        QList<Type> types;
+        for (int i=0, n=Undefined; i<n; i++)
+            types << ((Type)i);
+        return types;
+    }
+
+    typedef QSharedPointer<SQTower> SP;
+    typedef QList<SP> List;
+    typedef QHash<Type,SP> Hash;
+
+    static SP create(const QDomElement &elem, Type type) { return SP(new SQTower(elem, type)); }
+    virtual ~SQTower();
+
+    /** @name Getters */
+    /** @{ */
+    float cost() const { return _cost; }
+    Type type() const { return _type; }
+    /** @} */
+
+    QString toString() const
+    {
+        return QString("%1 costing %2")
+                .arg(typeToString(_type))
+                .arg(_cost);
+    }
+
+    static QString typeToString(Type type)
+    {
+        switch(type)
+        {
+        case Blaster: return "blaster";
+        case Thumper: return "thumper";
+        case Laser: return "laser";
+        case Missile: return "missile";
+        case Shock: return "shock";
+        case Portal: return "portal";
+        default: return "undefined";
+        }
+    }
 
 signals:
 
 public slots:
 
+private:
+    explicit SQTower(const QDomElement &elem, Type type);
+
+    Type _type;
+    float _cost;
 };
+
+bool operator<(const SQTower::SP &a, const SQTower::SP &b);
 
 #endif // SQTOWER_H

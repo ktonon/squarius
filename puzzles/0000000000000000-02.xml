@@ -21,12 +21,12 @@
         <sink sourceId="2" pos="1 4 0" />
     </blocks>
     <towers>
-        <blaster cost="1" />
-        <thump cost="1" />
-        <laser cost="2" />
-        <missile cost="2" />
-        <shock cost="3" />
-        <portal cost="4" />
+        <blaster cost="1.0" />
+        <thump cost="1.0" />
+        <missile cost="2.0" />
+        <shock cost="3.0" />
+<!--        <portal cost="4.0" />-->
+        <laser cost="2.0" />
     </towers>
     <swarms>
         <swarm id="1">
@@ -47,12 +47,12 @@
         </swarm>
     </swarms>
     <waves>
-        <wave swarmId="1" strength="1.0" time="5.0" />
-        <wave swarmId="1" strength="1.2" time="10.0" />
-        <wave swarmId="1" strength="1.5" time="15.0" />
-        <wave swarmId="1" strength="2.0" time="20.0" />
-        <wave swarmId="1" strength="3.0" time="25.0" />
-        <wave swarmId="2" strength="10.0" time="35.0" />
-        <wave swarmId="1" strength="5.0" time="30.0" />
+        <wave swarmId="1" sourceId="1" strength="1.0" time="5.0" />
+        <wave swarmId="1" sourceId="2" strength="1.2" time="10.0" />
+        <wave swarmId="1" sourceId="1" strength="1.5" time="15.0" />
+        <wave swarmId="1" sourceId="2" strength="2.0" time="20.0" />
+        <wave swarmId="1" sourceId="1" strength="3.0" time="25.0" />
+        <wave swarmId="2" sourceId="2" strength="10.0" time="35.0" />
+        <wave swarmId="1" sourceId="1" strength="5.0" time="30.0" />
     </waves>
 </puzzle>

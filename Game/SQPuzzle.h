@@ -11,6 +11,7 @@
 #include "SQOpenGL.h"
 #include "SQBlock.h"
 #include "SQSwarm.h"
+#include "SQTower.h"
 #include "SQWave.h"
 #include <QGLShaderProgram>
 
@@ -59,6 +60,13 @@ public:
     World world() const { return _id.world(); }
     Level level() const { return _id.level(); }
 
+    SQTower::List towers() const
+    {
+        SQTower::List l = _towers.values();
+        qSort(l);
+        return l;
+    }
+
     int maxDimension() const { return fmaxf(fmaxf(_shape[0], _shape[1]), _shape[2]); }
     /** @} */
 
@@ -85,6 +93,7 @@ private:
     SQBlock::List _blocks;
     SQSwarm::Hash _swarms;
     SQWave::List _waves;
+    SQTower::Hash _towers;
 
     int _shape[3];
     int _offset[3];
