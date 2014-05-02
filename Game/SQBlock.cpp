@@ -8,11 +8,26 @@
 
 #include "SQBlock.h"
 
-SQBlock::SQBlock(const QVector3D &position, Type type) :
+SQBlock::List SQBlock::create(const QDomDocument &doc)
+{
+    List blocks;
+    foreach (Type type, types())
+    {
+        QDomNodeList nodes = doc.elementsByTagName(typeToString(type));
+        for (int i=0, n=nodes.count(); i<n; i++)
+            blocks << create(nodes.at(i).toElement(), type);
+    }
+    return blocks;
+}
+
+SQBlock::SQBlock(const QDomElement &elem, Type type) :
     QObject(0),
-    _position(position),
     _type(type)
 {
+    QStringList pos = elem.attribute("pos").split(' ');
+    _position = QVector3D(pos.at(0).toInt(),
+                          pos.at(1).toInt(),
+                          pos.at(2).toInt());
 }
 
 SQBlock::~SQBlock()

@@ -45,6 +45,7 @@ public:
     typedef QList<SP> List;
     typedef QHash<Type,SP> Hash;
 
+    static Hash create(const QDomDocument &doc);
     static SP create(const QDomElement &elem, Type type) { return SP(new SQTower(elem, type)); }
     virtual ~SQTower();
 

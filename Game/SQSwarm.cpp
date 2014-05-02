@@ -14,6 +14,20 @@
 
 #include "SQSwarm.h"
 
+SQSwarm::Hash SQSwarm::create(const QDomDocument &doc)
+{
+    Hash swarms;
+    QDomNodeList nodes = doc.elementsByTagName("swarm");
+    for (int i=0, n=nodes.count(); i<n; i++)
+    {
+        QDomElement elem = nodes.at(i).toElement();
+        SP swarm = create(elem);
+        swarms[swarm->id()] = swarm;
+        qDebug() << swarm->toString();
+    }
+    return swarms;
+}
+
 SQSwarm::SQSwarm(const QDomElement &parentElem) :
     QObject(0),
     _id(parentElem.attribute("id").toInt()),
@@ -34,5 +48,4 @@ SQSwarm::SQSwarm(const QDomElement &parentElem) :
 
 SQSwarm::~SQSwarm()
 {
-
 }

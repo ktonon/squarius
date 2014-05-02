@@ -41,9 +41,8 @@ public:
     typedef QSharedPointer<SQBlock> SP;
     typedef QList<SP> List;
 
-    static SP create(Type type) { return SP(new SQBlock(QVector3D(), type)); }
-    static SP create(int x, int y, int z, Type type) { return SP(new SQBlock(QVector3D(x, y, z), type)); }
-    static SP create(const QVector3D &position, Type type) { return SP(new SQBlock(position, type)); }
+    static List create(const QDomDocument &doc);
+    static SP create(const QDomElement &elem, Type type) { return SP(new SQBlock(elem, type)); }
     virtual ~SQBlock();
 
     /** @name Getters */
@@ -85,7 +84,7 @@ public:
     }
 
 private:
-    explicit SQBlock(const QVector3D &position, Type type);
+    explicit SQBlock(const QDomElement &elem, Type type);
 
     QVector3D _position;
     Type _type;

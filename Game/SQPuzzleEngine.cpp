@@ -41,22 +41,11 @@ bool SQPuzzleEngine::panGesture(SQPanGesture *gesture)
 {
     static const float bound = 10.0f;
     if (gesture->state() == Qt::GestureStarted)
-    {
-        qDebug() << "started";
         _isGesturing = true;
-    }
     if (gesture->state() == Qt::GestureFinished || gesture->state() == Qt::GestureCanceled)
-    {
-        qDebug() << "finished";
         _isGesturing = false;
-    }
     if (_perspective == _perspective3d)
     {
-        qDebug() << QString("%1,%2")
-                    .arg(gesture->delta().x())
-                    .arg(gesture->delta().y())
-                    ;
-
         _rotI = fmaxf(fminf(gesture->delta().y(), bound), -bound);
         _rotJ = fmaxf(fminf(gesture->delta().x(), bound), -bound);
     }

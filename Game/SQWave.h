@@ -26,6 +26,7 @@ public:
     typedef QSharedPointer<SQWave> SP;
     typedef QList<SP> List;
 
+    static List create(const QDomDocument &doc);
     static SP create(const QDomElement &elem) { return SP(new SQWave(elem)); }
     virtual ~SQWave();
 

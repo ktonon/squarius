@@ -14,6 +14,18 @@
 
 #include "SQWave.h"
 
+SQWave::List SQWave::create(const QDomDocument &doc)
+{
+    List waves;
+    QDomNodeList nodes = doc.elementsByTagName("wave");
+    for (int i=0, n=nodes.count(); i<n; i++)
+        waves << create(nodes.at(i).toElement());
+    qSort(waves);
+    foreach (const SP &wave, waves)
+        qDebug() << wave->toString();
+    return waves;
+}
+
 SQWave::SQWave(const QDomElement &elem) :
     QObject(0),
     _swarmId(elem.attribute("swarmId").toInt()),

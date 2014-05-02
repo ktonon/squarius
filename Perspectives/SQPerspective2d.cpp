@@ -16,7 +16,6 @@ SQPerspective2d::SQPerspective2d(int maxDimension, QObject *parent) :
 
 SQPerspective2d::~SQPerspective2d()
 {
-
 }
 
 void SQPerspective2d::setShape(int w, int h)
@@ -40,12 +39,10 @@ void SQPerspective2d::setShape(int w, int h)
 
 void SQPerspective2d::activate()
 {
-    qDebug() << QString("2d activated\n%1").arg(sqMatrixToString(_projectionMatrix));
     SQPerspective::activate();
 }
 
 void SQPerspective2d::deactivate()
 {
-    qDebug() << "2d deactivated";
     SQPerspective::deactivate();
 }

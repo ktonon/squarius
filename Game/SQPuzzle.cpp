@@ -14,67 +14,21 @@
 SQPuzzle::SQPuzzle(SQPuzzle::World world, SQPuzzle::Level level) :
     QObject(0),
     _id(world, level),
-    _blocks(),
-    _swarms(),
-    _waves(),
-    _towers(),
     _shape(),
     _i(), _j(), _k(),
     _origin(),
     _colIndex(-1), _rowIndex(-1)
 {
-    QDomNodeList nodes;
-    int i;
-    int n;
     QFile file(_id.path());
     if (file.exists())
     {
         QDomDocument doc;
         if (doc.setContent(&file))
         {
-            foreach (SQBlock::Type type, SQBlock::types())
-            {
-                nodes = doc.elementsByTagName(SQBlock::typeToString(type));
-                for (i=0, n=nodes.count(); i<n; i++)
-                {
-                    QDomElement elem = nodes.at(i).toElement();
-                    QStringList pos = elem.attribute("pos").split(' ');
-                    _blocks << SQBlock::create(pos.at(0).toInt(),
-                                               pos.at(1).toInt(),
-                                               pos.at(2).toInt(),
-                                               type);
-                }
-            }
-            nodes = doc.elementsByTagName("swarm");
-            for (i=0, n=nodes.count(); i<n; i++)
-            {
-                QDomElement elem = nodes.at(i).toElement();
-                SQSwarm::SP swarm = SQSwarm::create(elem);
-                _swarms[swarm->id()] = swarm;
-                qDebug() << swarm->toString();
-            }
-            nodes = doc.elementsByTagName("wave");
-            for (i=0, n=nodes.count(); i<n; i++)
-            {
-                QDomElement elem = nodes.at(i).toElement();
-                _waves << SQWave::create(elem);
-            }
-            qSort(_waves);
-            foreach (const SQWave::SP &wave, _waves)
-                qDebug() << wave->toString();
-
-            foreach (SQTower::Type type, SQTower::types())
-            {
-                nodes = doc.elementsByTagName(SQTower::typeToString(type));
-                if (nodes.count() > 0)
-                {
-                    QDomElement elem = nodes.at(0).toElement();
-                    SQTower::SP tower = SQTower::create(elem, type);
-                    _towers[tower->type()] = tower;
-                }
-            }
-            foreach (const SQTower::SP &tower, towers())
-                qDebug() << tower->toString();
+            _blocks = SQBlock::create(doc);
+            _swarms = SQSwarm::create(doc);
+            _waves = SQWave::create(doc);
+            _towers = SQTower::create(doc);
         }
     }
     calcShapeOffset();

@@ -14,6 +14,24 @@
 
 #include "SQTower.h"
 
+SQTower::Hash SQTower::create(const QDomDocument &doc)
+{
+    Hash towers;
+    foreach (SQTower::Type type, SQTower::types())
+    {
+        QDomNodeList nodes = doc.elementsByTagName(typeToString(type));
+        if (nodes.count() > 0)
+        {
+            QDomElement elem = nodes.at(0).toElement();
+            SP tower = create(elem, type);
+            towers[tower->type()] = tower;
+        }
+    }
+    foreach (const SP &tower, towers.values())
+        qDebug() << tower->toString();
+    return towers;
+}
+
 SQTower::SQTower(const QDomElement &elem, Type type) :
     QObject(0),
     _type(type),

@@ -26,6 +26,7 @@ public:
     typedef QSharedPointer<SQSwarm> SP;
     typedef QHash<int,SP> Hash;
 
+    static Hash create(const QDomDocument &doc);
     static SP create(const QDomElement &elem) { return SP(new SQSwarm(elem)); }
     virtual ~SQSwarm();
 
