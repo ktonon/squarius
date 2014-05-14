@@ -8,20 +8,57 @@
 
 #include "SQBlock.h"
 
-SQBlock::List SQBlock::create(const QDomDocument &doc)
+SQBlock::Data SQBlock::create(const QDomDocument &doc)
 {
-    List blocks;
+    Data data;
     foreach (Type type, types())
     {
         QDomNodeList nodes = doc.elementsByTagName(typeToString(type));
         for (int i=0, n=nodes.count(); i<n; i++)
-            blocks << create(nodes.at(i).toElement(), type);
+        {
+            SP block = create(nodes.at(i).toElement(), type);
+            Q_ASSERT_X(!data.blocks.contains(block->position()), "SQBlock::create",
+                       QString("more than one block has position <%1,%2,%3>")
+                       .arg(block->position().x())
+                       .arg(block->position().y())
+                       .arg(block->position().z())
+                       .toStdString().c_str());
+            data.blocks[block->position()] = block;
+            if (block->type() == Source)
+            {
+                Q_ASSERT(block->id() != 0);
+                Q_ASSERT_X(!data.sources.contains(block->id()), "SQBlock::create",
+                           QString("more than one source has id %1")
+                           .arg(block->id())
+                           .toStdString().c_str());
+                data.sources[block->id()] = block;
+            }
+            if (block->type() == Sink)
+            {
+                Q_ASSERT(block->id() != 0);
+                Q_ASSERT_X(!data.sinks.contains(block->id()), "SQBlock::create",
+                           QString("more than one sink has id %1")
+                           .arg(block->id())
+                           .toStdString().c_str());
+                data.sinks[block->id()] = block;
+            }
+        }
     }
-    return blocks;
+
+    QList<int> sourceKeys = data.sources.keys();
+    QList<int> sinkKeys = data.sinks.keys();
+    qSort(sourceKeys);
+    qSort(sinkKeys);
+    Q_ASSERT_X(sourceKeys == sinkKeys, "SQBlock::create",
+               "there must be exactly one sink for every source");
+    Q_ASSERT(!sourceKeys.isEmpty());
+    Q_ASSERT(!sinkKeys.isEmpty());
+    return data;
 }
 
 SQBlock::SQBlock(const QDomElement &elem, Type type) :
     QObject(0),
+    _id(elem.attribute("id").toInt()),
     _type(type)
 {
     QStringList pos = elem.attribute("pos").split(' ');
@@ -48,3 +85,10 @@ QVector4D SQBlock::color() const
     }
 }
 
+int qHash(const QVector3D &v)
+{
+    static const int MAX_DIM = 100;
+    return (int)v.x() * MAX_DIM * MAX_DIM +
+            (int)v.y() * MAX_DIM +
+            (int)v.z();
+}

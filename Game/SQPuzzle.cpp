@@ -25,7 +25,7 @@ SQPuzzle::SQPuzzle(SQPuzzle::World world, SQPuzzle::Level level) :
         QDomDocument doc;
         if (doc.setContent(&file))
         {
-            _blocks = SQBlock::create(doc);
+            _blockData = SQBlock::create(doc);
             _swarms = SQSwarm::create(doc);
             _waves = SQWave::create(doc);
             _towers = SQTower::create(doc);
@@ -36,13 +36,13 @@ SQPuzzle::SQPuzzle(SQPuzzle::World world, SQPuzzle::Level level) :
 
 void SQPuzzle::calcShapeOffset()
 {
-    if (!_blocks.isEmpty())
+    if (!blocks().isEmpty())
     {
         for (int dim=0; dim<3; dim++)
         {
-            int minVal = _blocks.first()->at(dim);
+            int minVal = blocks().first()->at(dim);
             int maxVal = minVal;
-            foreach (const SQBlock::SP &block, _blocks)
+            foreach (const SQBlock::SP &block, blocks())
             {
                 int val = block->at(dim);
                 if (val < minVal) minVal = val;
@@ -52,6 +52,7 @@ void SQPuzzle::calcShapeOffset()
             _shape[dim] = maxVal - minVal + 1;
         }
     }
+    Q_ASSERT(_shape[0] > 0 && _shape[1] > 0 && _shape[2] > 0);
 }
 
 SQPuzzle::~SQPuzzle()
@@ -60,7 +61,7 @@ SQPuzzle::~SQPuzzle()
 
 void SQPuzzle::renderCells()
 {
-    foreach(SQBlock::SP block, _blocks)
+    foreach(SQBlock::SP block, blocks())
     {
         SQStack::instance()->push();
         SQStack::instance()->translate(

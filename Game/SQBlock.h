@@ -40,13 +40,23 @@ public:
 
     typedef QSharedPointer<SQBlock> SP;
     typedef QList<SP> List;
+    typedef QHash<int,SP> HashById;
+    typedef QHash<QVector3D,SP> HashByPos;
 
-    static List create(const QDomDocument &doc);
+    struct Data
+    {
+        HashById sources;
+        HashById sinks;
+        HashByPos blocks;
+    };
+
+    static Data create(const QDomDocument &doc);
     static SP create(const QDomElement &elem, Type type) { return SP(new SQBlock(elem, type)); }
     virtual ~SQBlock();
 
     /** @name Getters */
     /** @{ */
+    int id() const { return _id; }
     QVector3D position() const { return _position; }
     float at(int dim) const
     {
@@ -86,8 +96,11 @@ public:
 private:
     explicit SQBlock(const QDomElement &elem, Type type);
 
+    int _id;
     QVector3D _position;
     Type _type;
 };
+
+int qHash(const QVector3D &v);
 
 #endif // SQBLOCK_H

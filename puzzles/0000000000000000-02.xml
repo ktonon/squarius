@@ -17,8 +17,8 @@
         <solid pos="3 4 3" />
         <health pos="2 4 2" />
         <speed pos="1 4 1" />
-        <sink sourceId="1" pos="0 4 0" />
-        <sink sourceId="2" pos="1 4 0" />
+        <sink id="1" pos="0 4 0" />
+        <sink id="2" pos="1 4 0" />
     </blocks>
     <towers>
         <blaster cost="1.0" />

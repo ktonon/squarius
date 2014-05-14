@@ -57,17 +57,15 @@ public:
 
     /** @name Getters */
     /** @{ */
-    World world() const { return _id.world(); }
     Level level() const { return _id.level(); }
-
-    SQTower::List towers() const
-    {
-        SQTower::List l = _towers.values();
-        qSort(l);
-        return l;
-    }
-
+    World world() const { return _id.world(); }
     int maxDimension() const { return fmaxf(fmaxf(_shape[0], _shape[1]), _shape[2]); }
+
+    SQBlock::SP block(int x, int y, int z) const { return block(QVector3D(x, y, z)); }
+    SQBlock::SP block(const QVector3D &pos) const { return _blockData.blocks[pos]; }
+    SQBlock::List blocks() const { return _blockData.blocks.values(); }
+    SQBlock::SP sink(int id) const { return _blockData.sinks[id]; }
+    SQBlock::SP source(int id) const { return _blockData.sources[id]; }
     /** @} */
 
     /** @name Commands */
@@ -90,7 +88,7 @@ private:
     void calcShapeOffset();
 
     Id _id;
-    SQBlock::List _blocks;
+    SQBlock::Data _blockData;
     SQSwarm::Hash _swarms;
     SQWave::List _waves;
     SQTower::Hash _towers;
