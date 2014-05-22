@@ -52,26 +52,6 @@ bool SQPuzzleEngine::panGesture(SQPanGesture *gesture)
     return true;
 }
 
-bool SQPuzzleEngine::pinchGesture(QPinchGesture *gesture)
-{
-    if (gesture->state() == Qt::GestureUpdated && _perspective == _perspective3d)
-    {
-//        _rotK = (gesture->lastRotationAngle() - gesture->rotationAngle()) * 8;
-    }
-    if (gesture->state() == Qt::GestureFinished)
-    {
-//        if ((_perspective == _perspective2d && gesture->scaleFactor() < 1) ||
-//            (_perspective == _perspective3d && gesture->scaleFactor() > 1))
-//            perspectiveSwitchBegin();
-    }
-    return true;
-}
-
-bool SQPuzzleEngine::tapGesture(QTapGesture *)
-{
-    return false;
-}
-
 void SQPuzzleEngine::renderModel()
 {
     _puzzle->renderCells();
@@ -103,6 +83,14 @@ void SQPuzzleEngine::updateModelView()
 {
     applyGesturesToModelView();
     if (shouldPullViewToAxis()) pullViewToAxis();
+}
+
+void SQPuzzleEngine::updateActors()
+{
+    if (isPerspective2d())
+    {
+
+    }
 }
 
 void SQPuzzleEngine::applyGesturesToModelView()

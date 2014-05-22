@@ -32,7 +32,12 @@ SOURCES += main.cpp\
     Game/SQWave.cpp \
     Game/SQSwarm.cpp \
     Game/SQTower.cpp \
-    Game/SQCrawler.cpp
+    Game/SQCrawler.cpp \
+    Menus/SQMainMenu.cpp \
+    Menus/SQWorldMenu.cpp \
+    Menus/SQLevelMenu.cpp \
+    Menus/SQButtonGrid.cpp \
+    Menus/SQButton.cpp
 
 HEADERS  += MainWindow.h \
     SQEngine.h \
@@ -55,9 +60,19 @@ HEADERS  += MainWindow.h \
     Game/SQWave.h \
     Game/SQSwarm.h \
     Game/SQTower.h \
-    Game/SQCrawler.h
+    Game/SQCrawler.h \
+    Menus/SQMainMenu.h \
+    Menus/SQWorldMenu.h \
+    Menus/SQLevelMenu.h \
+    Menus/SQButtonGrid.h \
+    Menus/SQButton.h
 
-FORMS    += MainWindow.ui
+FORMS    += MainWindow.ui \
+    Menus/SQMainMenu.ui \
+    Menus/SQWorldMenu.ui \
+    Menus/SQLevelMenu.ui \
+    Menus/SQButtonGrid.ui \
+    Menus/SQButton.ui
 
 OTHER_FILES += \
     fshader.fsh \

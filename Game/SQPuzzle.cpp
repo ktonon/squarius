@@ -11,9 +11,31 @@
 #include "Utilities/SQStack.h"
 #include <QtXml>
 
-SQPuzzle::SQPuzzle(SQPuzzle::World world, SQPuzzle::Level level) :
+SQPuzzle::WorldMap SQPuzzle::worldMap()
+{
+    WorldMap map(new QHash<World,LevelList>);
+    QDir puzzleDir(":/puzzles");
+    foreach (const QFileInfo &info, puzzleDir.entryInfoList())
+    {
+        QStringList parts = info.baseName().split("-");
+        World world = parts.at(0).toInt();
+        Level level = parts.at(1).toInt();
+        LevelList list = map->contains(world)
+                ? map->value(world)
+                : LevelList(new QList<Level>);
+        list->append(level);
+        map->insert(world, list);
+    }
+    foreach(const LevelList &list, map->values())
+    {
+        qSort(*list.data());
+    }
+    return map;
+}
+
+SQPuzzle::SQPuzzle(const Id &id) :
     QObject(0),
-    _id(world, level),
+    _id(id),
     _shape(),
     _i(), _j(), _k(),
     _origin(),

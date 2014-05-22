@@ -20,7 +20,10 @@
    <string notr="true">#centralWidget {
 	background-color: black;
 }
-#toggleButton {
+QLabel {
+	color: white;
+}
+QPushButton {
 	border-radius: 5px;
 	border: 1px solid #69c;
 	background-color: #036;
@@ -30,43 +33,38 @@
 }</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout" stretch="4,0">
+   <layout class="QVBoxLayout" name="verticalLayout">
     <property name="leftMargin">
-     <number>2</number>
+     <number>0</number>
     </property>
     <property name="topMargin">
-     <number>2</number>
+     <number>0</number>
     </property>
     <property name="rightMargin">
-     <number>2</number>
+     <number>0</number>
     </property>
     <property name="bottomMargin">
-     <number>2</number>
+     <number>0</number>
     </property>
     <item>
-     <widget class="SQEngine" name="engine" native="true">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>200</width>
-        <height>200</height>
-       </size>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="toggleButton">
-      <property name="text">
-       <string>&amp;Toggle</string>
-      </property>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <widget class="SQMainMenu" name="mainMenu"/>
+      <widget class="SQWorldMenu" name="worldMenu"/>
+      <widget class="SQLevelMenu" name="levelMenu"/>
+      <widget class="SQEngine" name="engine"/>
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>422</width>
+     <height>22</height>
+    </rect>
+   </property>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
@@ -81,42 +79,27 @@
     <slot>togglePerspective()</slot>
    </slots>
   </customwidget>
+  <customwidget>
+   <class>SQMainMenu</class>
+   <extends>QWidget</extends>
+   <header>Menus/SQMainMenu.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SQWorldMenu</class>
+   <extends>QWidget</extends>
+   <header>Menus/SQWorldMenu.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SQLevelMenu</class>
+   <extends>QWidget</extends>
+   <header>Menus/SQLevelMenu.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <resources/>
- <connections>
-  <connection>
-   <sender>toggleButton</sender>
-   <signal>clicked()</signal>
-   <receiver>engine</receiver>
-   <slot>togglePerspective()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>345</x>
-     <y>656</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>284</x>
-     <y>154</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>engine</sender>
-   <signal>perspectiveChanged()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>engineChangedState()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>63</x>
-     <y>427</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>5</x>
-     <y>491</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
  <slots>
   <slot>engineChangedState()</slot>
  </slots>

@@ -25,6 +25,8 @@ public:
 
     static SQStack *instance();
 
+    void setPerspectiveProvider(IPerspectiveProvider *perspectiveProvider);
+
     virtual ~SQStack();
 
     QMatrix4x4 modelViewMatrix() const { return _stack.last(); }

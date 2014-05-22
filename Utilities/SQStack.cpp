@@ -28,6 +28,11 @@ SQStack *SQStack::instance()
     return _instance;
 }
 
+void SQStack::setPerspectiveProvider(IPerspectiveProvider *perspectiveProvider)
+{
+    _perspectiveProvider = perspectiveProvider;
+}
+
 SQStack::SQStack() :
     _program(NULL),
     _perspectiveProvider(NULL),

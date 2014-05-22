@@ -35,8 +35,6 @@ public:
     /** @name Gesture handlers */
     /** @{ */
     bool panGesture(SQPanGesture *gesture);
-    bool pinchGesture(QPinchGesture *gesture);
-    bool tapGesture(QTapGesture *gesture);
     /** @} */
 
     /** @name IPerspectiveProvider methods */
@@ -86,7 +84,15 @@ public slots:
             _perspectiveSwitcher->setShape(w, h);
     }
 
+    /**
+     * @brief Update the model view matrix
+     */
     void updateModelView();
+
+    /**
+     * @brief Update the actors in the game
+     */
+    void updateActors();
 
     void perspectiveSwitchBegin();
 

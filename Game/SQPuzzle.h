@@ -46,13 +46,18 @@ public:
         Level _level;
     };
 
+    typedef QSharedPointer<QList<Level> > LevelList;
+    typedef QSharedPointer<QHash<World,LevelList> > WorldMap;
+
+    static WorldMap worldMap();
+
     /**
      * @brief Load a puzzle for the given world and level
      * @param world The package of puzzle levels in which to look for the level
      * @param level The level number, relative to the world
      * @return A shared pointer to the loaded puzzle
      */
-    static SP load(World world, Level level) { return SP(new SQPuzzle(world, level)); }
+    static SP load(const Id &id) { return SP(new SQPuzzle(id)); }
     virtual ~SQPuzzle();
 
     /** @name Getters */
@@ -84,7 +89,7 @@ signals:
 public slots:
 
 private:
-    explicit SQPuzzle(World world, Level level);
+    explicit SQPuzzle(const Id &id);
     void calcShapeOffset();
 
     Id _id;

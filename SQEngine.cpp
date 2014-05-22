@@ -24,15 +24,7 @@ SQEngine::SQEngine(QWidget *parent) :
     _width(-1)
 {
     SQPanGestureRecognizer::registerMe();
-
     grabGesture(SQPanGestureRecognizer::recognizerId());
-    grabGesture(Qt::PinchGesture);
-//    grabGesture(Qt::SwipeGesture);
-//    grabGesture(Qt::TapGesture);
-
-    // TODO: replace this with real level loader
-    _puzzleEngine = new SQPuzzleEngine(SQPuzzle::load(0, 2), this);
-    connect(_puzzleEngine, SIGNAL(perspectedSwitchEnded()), SIGNAL(perspectiveChanged()));
 }
 
 SQEngine::~SQEngine()
@@ -42,8 +34,11 @@ SQEngine::~SQEngine()
 
 bool SQEngine::event(QEvent *event)
 {
-    if (event->type() == QEvent::Gesture)
-        return gestureEvent(static_cast<QGestureEvent*>(event));
+    if (_puzzleEngine)
+    {
+        if (event->type() == QEvent::Gesture)
+            return gestureEvent(static_cast<QGestureEvent*>(event));
+    }
     return QWidget::event(event);
 }
 
@@ -51,13 +46,6 @@ bool SQEngine::gestureEvent(QGestureEvent *event)
 {
     if (QGesture *pan = event->gesture(SQPanGestureRecognizer::recognizerId()))
         return _puzzleEngine->panGesture(static_cast<SQPanGesture*>(pan));
-    if (QGesture *pinch = event->gesture(Qt::PinchGesture))
-        return _puzzleEngine->pinchGesture(static_cast<QPinchGesture*>(pinch));
-    if (QGesture *swipe = event->gesture(Qt::SwipeGesture))
-        qDebug() << "swipe";
-    if (QGesture *tap = event->gesture(Qt::TapGesture))
-        qDebug() << "tap";
-//        return _puzzleEngine->tapGesture(static_cast<QTapGesture*>(tap));
     return false;
 }
 
@@ -77,8 +65,6 @@ void SQEngine::initializeGL()
 
     SQStack::instance()->init(&_shaderProgram, _puzzleEngine);
     SQPrimitives::instance()->init(&_shaderProgram);
-    _puzzleEngine->activate();
-    _puzzleEngine->updateModelView();
     emit perspectiveChanged();
 
     // using QBasicTimer because its faster that QTimer
@@ -131,7 +117,11 @@ void SQEngine::initTextures()
 
 void SQEngine::timerEvent(QTimerEvent *)
 {
-    _puzzleEngine->updateModelView();
+    if (_puzzleEngine)
+    {
+        _puzzleEngine->updateModelView();
+        _puzzleEngine->updateActors();
+    }
 
     // Update scene
     updateGL();
@@ -151,7 +141,8 @@ void SQEngine::paintGL()
     _shaderProgram.setUniformValue("texture", 0);
 
     // Draw the puzzle geometry
-    _puzzleEngine->renderModel();
+    if (_puzzleEngine)
+        _puzzleEngine->renderModel();
 }
 
 void SQEngine::resizeGL(int w, int h)
@@ -159,10 +150,27 @@ void SQEngine::resizeGL(int w, int h)
     glViewport(0, 0, w, h);
     _width = w;
     _height = h;
-    _puzzleEngine->setShape(w, h);
+    if (_puzzleEngine)
+        _puzzleEngine->setShape(w, h);
 }
 
 void SQEngine::togglePerspective()
 {
-    _puzzleEngine->perspectiveSwitchBegin();
+    if (_puzzleEngine)
+        _puzzleEngine->perspectiveSwitchBegin();
+}
+
+void SQEngine::setPuzzleId(const SQPuzzle::Id &puzzleId)
+{
+    if (_puzzleEngine)
+    {
+        SQStack::instance()->setPerspectiveProvider(NULL);
+        _puzzleEngine->deleteLater();
+        _puzzleEngine = NULL;
+    }
+    _puzzleEngine = new SQPuzzleEngine(SQPuzzle::load(puzzleId), this);
+    connect(_puzzleEngine, SIGNAL(perspectedSwitchEnded()), SIGNAL(perspectiveChanged()));
+    SQStack::instance()->setPerspectiveProvider(_puzzleEngine);
+    _puzzleEngine->activate();
+    _puzzleEngine->updateModelView();
 }

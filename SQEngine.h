@@ -9,6 +9,7 @@
 #pragma once
 #include "SQOpenGL.h"
 #include "Gestures/SQPanGestureRecognizer.h"
+#include "Game/SQPuzzle.h"
 #include <QtCore>
 #include <QtGui>
 #include <QPanGesture>
@@ -45,6 +46,7 @@ signals:
 
 public slots:
     void togglePerspective();
+    void setPuzzleId(const SQPuzzle::Id &puzzleId);
 
 private:
     QGLShaderProgram _shaderProgram;
